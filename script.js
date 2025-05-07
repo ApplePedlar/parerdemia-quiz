@@ -535,8 +535,31 @@ function checkAnswer(event) {
         const optName = opt.dataset.name;
         if (optName === correctName) {
             opt.classList.add('correct', 'correct-highlight');
+            // 正解アニメーションを適用
+            opt.classList.add('correct-animation', 'animated-feedback');
+            
+            // 画像のみ表示状態にする
+            const bgImage = opt.querySelector('.bg-image');
+            if (bgImage) {
+                bgImage.style.visibility = 'visible';
+                // 名前選択モードの場合は完全に不透明に
+                if (gameState.mode === 'name-select') {
+                    bgImage.style.opacity = '1';
+                }
+            }
         } else if (opt === selectedOption && !isCorrect) {
             opt.classList.add('incorrect');
+            // 不正解アニメーションを適用
+            opt.classList.add('incorrect-animation', 'animated-feedback');
+            
+            // 名前選択モードの場合は選択した不正解も画像を表示
+            if (gameState.mode === 'name-select') {
+                const bgImage = opt.querySelector('.bg-image');
+                if (bgImage) {
+                    bgImage.style.visibility = 'visible';
+                    bgImage.style.opacity = '1';
+                }
+            }
         }
         
         // 名前選択モードの場合、回答後に背景画像を表示する
@@ -548,12 +571,6 @@ function checkAnswer(event) {
             const dormitoryElement = opt.querySelector('.talent-dormitory');
             if (kanaElement) kanaElement.style.display = 'none';
             if (dormitoryElement) dormitoryElement.style.display = 'none';
-            
-            // 画像のみ表示状態にする - サイズが変わるインラインスタイルは追加しない
-            const bgImage = opt.querySelector('.bg-image');
-            if (bgImage) {
-                bgImage.style.visibility = 'visible';
-            }
         }
     });
     
@@ -594,9 +611,30 @@ function checkAnswer(event) {
     // 次の問題への移行タイマーをセット
     gameState.isWaitingForNext = true;
     setTimeout(() => {
+        // アニメーションクラスを削除
+        options.forEach(opt => {
+            opt.classList.remove('correct-animation', 'incorrect-animation', 'animated-feedback');
+        });
+        
         gameState.isWaitingForNext = false;
         generateQuestion();
-    }, isCorrect ? 1000 : 3000);
+    }, isCorrect ? 1200 : 3000);
+}
+
+// フィードバックの表示
+function showFeedback(isCorrect, selectedName) {
+    const feedback = document.getElementById('feedback');
+    feedback.innerHTML = '';
+    
+    if (isCorrect) {
+        // 正解の場合
+        feedback.textContent = '正解！';
+        feedback.className = 'correct feedback-animation';
+    } else {
+        // 不正解の場合
+        feedback.textContent = '不正解...';
+        feedback.className = 'incorrect feedback-animation';
+    }
 }
 
 // 正解率と統計情報の更新
@@ -701,22 +739,6 @@ function updateStreakDisplay() {
     }, 500);
     
     streakContainer.classList.remove('hidden');
-}
-
-// フィードバックの表示
-function showFeedback(isCorrect, selectedName) {
-    const feedback = document.getElementById('feedback');
-    feedback.innerHTML = '';
-    
-    if (isCorrect) {
-        // 正解の場合
-        feedback.textContent = '正解！';
-        feedback.className = 'correct';
-    } else {
-        // 不正解の場合 - シンプルに「不正解」だけ表示し、正解の詳細表示を削除
-        feedback.textContent = '不正解...';
-        feedback.className = 'incorrect';
-    }
 }
 
 /*
