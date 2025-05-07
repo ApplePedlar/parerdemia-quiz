@@ -202,6 +202,13 @@
         width: 100%;
         box-sizing: border-box;
     }
+
+    /* 選択肢が3つの場合、3つ目（最後の子要素）を中央寄せ */
+    #options-container .option:nth-child(3):last-child {
+        grid-column: 1 / -1; /* 行全体を使用 */
+        justify-self: center; /* 水平方向の中央寄せ */
+        max-width: calc(50% - 5px); /* 幅を制限して視覚的にも中央に見えるようにする */
+    }
 }
 
 /* さらに小さい画面のための追加調整 */
