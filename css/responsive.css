@@ -209,6 +209,32 @@
         justify-self: center; /* 水平方向の中央寄せ */
         max-width: calc(50% - 5px); /* 幅を制限して視覚的にも中央に見えるようにする */
     }
+
+    /* タイトルのレスポンシブ対応 */
+    .game-title-main {
+        font-size: 1.4rem;
+    }
+    
+    .game-title-sub {
+        font-size: 1rem;
+    }
+    
+    .game-title-inner {
+        padding: 8px 15px;
+    }
+    
+    .game-title-divider {
+        margin: 0 8px;
+    }
+    
+    .dorm-icon {
+        font-size: 0.7rem;
+        padding: 2px 6px;
+    }
+    
+    .game-title-decoration {
+        gap: 10px;
+    }
 }
 
 /* さらに小さい画面のための追加調整 */
@@ -258,5 +284,37 @@
     
     .stat-item .stat-value {
         font-size: 1rem;
+    }
+
+    /* タイトルのレスポンシブ対応 */
+    .game-title-main {
+        font-size: 1.2rem;
+    }
+    
+    .game-title-sub {
+        font-size: 0.9rem;
+    }
+    
+    .game-title-inner {
+        padding: 6px 12px;
+    }
+    
+    .game-title-divider {
+        margin: 0 6px;
+        font-size: 0.9rem;
+    }
+    
+    .title-sparkle {
+        font-size: 10px;
+    }
+    
+    .dorm-icon {
+        font-size: 0.65rem;
+        padding: 2px 5px;
+    }
+    
+    .game-title-decoration {
+        gap: 6px;
+        margin-top: 8px;
     }
 }
