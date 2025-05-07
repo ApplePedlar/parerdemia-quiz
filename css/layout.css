@@ -1,0 +1,106 @@
+/* 
+ * パレデミア学園 寮生記憶ゲーム - レイアウトスタイル
+ * 
+ * 画面構造とレイアウトを定義するファイルです。
+ * 月百 ぷかりさんの整然とした美しさと、
+ * フローレ・ブランカさんの流れるような優雅さを
+ * 意識したレイアウト設計を心がけました。
+ * 
+ * PCとモバイルの両方で美しく表示されるよう、
+ * 基本構造にこだわっています。
+ */
+
+.controls {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 0;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.mode-selector, .options-selector {
+    text-align: center;
+}
+
+.stats {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.stats-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.game-area {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+#question-container {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* 選択肢のレイアウト - PC表示では必ず横並びフレックスボックスに */
+#options-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+/* 画像選択モード用 - PC表示では横並びを確保 */
+#options-container.image-select-mode {
+    display: flex !important; /* important で他のスタイルより優先させる */
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+/* PCでの画像選択モード4選択肢を1行に表示するための特別スタイル */
+@media (min-width: 769px) {
+    #options-container.image-select-mode.four-options {
+        flex-wrap: nowrap !important;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    #options-container.image-select-mode.four-options .image-option {
+        width: 23%; /* 4つで1行に収まるように幅を調整 */
+        min-width: 0; /* 最小幅の制限を解除 */
+        margin: 0 5px; /* 左右の余白を調整 */
+    }
+    
+    #options-container.image-select-mode.four-options .image-option img {
+        width: 100%;
+        height: auto;
+        max-width: 180px; /* 画像サイズを少し小さく */
+        max-height: 180px;
+    }
+}
+
+/* 名前選択モード用 */
+#options-container.name-select-mode {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+}
+
+#options-container.name-select-mode.four-options {
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 5px;
+}

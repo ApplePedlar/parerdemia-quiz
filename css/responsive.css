@@ -1,0 +1,255 @@
+/* 
+ * パレデミア学園 寮生記憶ゲーム - レスポンシブスタイル
+ * 
+ * 異なる画面サイズに対応するためのスタイルを定義します。
+ * 水無瀬 天さんのように柔軟に対応できる設計を心がけました。
+ * 
+ * スマートフォンでもタブレットでも、どの環境でも
+ * パレデミア学園のタレントさんたちの魅力が
+ * 伝わるよう工夫しています。飛渡 ココさんの
+ * 自由さを技術面でも表現したいと思いました。
+ */
+
+/* モバイル対応のためのメディアクエリ */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    h1 {
+        font-size: 24px;
+        margin-bottom: 15px;
+    }
+    
+    /* 設定パネルは常に閉じた状態で開始 */
+    .accordion-content {
+        max-height: 0;
+    }
+    
+    /* コントロールを縦並びに */
+    .controls {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .mode-selector, .options-selector, .difficulty-selector {
+        width: 100%;
+    }
+    
+    /* ボタンのサイズを調整 */
+    button {
+        padding: 10px;
+        margin: 3px;
+        font-size: 14px;
+    }
+    
+    /* 統計情報をコンパクトに - 横並び2行レイアウトに変更 */
+    .stats-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+        gap: 5px;
+        width: 100%;
+    }
+    
+    .stat-item {
+        padding: 3px 5px;
+        width: 100%;
+        font-size: 0.85rem;
+    }
+    
+    /* ラベルと値を縦に並べてさらにコンパクトに */
+    .stat-item p {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0;
+        line-height: 1.2;
+    }
+    
+    .stat-item .stat-label {
+        font-size: 0.75rem;
+        color: #666;
+    }
+    
+    .stat-item .stat-value {
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+    
+    /* 連続正解表示も横幅いっぱいに効率的に */
+    #streak-container {
+        padding: 5px 8px;
+        min-height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    
+    #streak-count {
+        font-size: 1rem;
+        margin: 0 3px;
+    }
+    
+    #streak-message {
+        width: 100%;
+        text-align: center;
+        font-size: 0.7rem;
+        margin-top: 2px;
+    }
+    
+    /* ゲームエリアのパディングを減らす */
+    .game-area {
+        padding: 10px;
+    }
+    
+    #question-container {
+        margin-bottom: 15px;
+    }
+    
+    #question-text {
+        font-size: 20px;
+    }
+    
+    /* 選択肢のサイズを調整 */
+    .option img {
+        width: 140px;
+        height: 140px;
+    }
+    
+    /* モバイル用のみ選択肢を2列グリッドに変更 - PCの設定を上書きするため !important を使用 */
+    #options-container,
+    #options-container.image-select-mode,
+    #options-container.image-select-mode.four-options {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    
+    .option {
+        width: 100%;
+        height: auto;
+    }
+    
+    /* 名前選択モード用 */
+    .option.name-option {
+        width: 100%;
+        height: 120px;
+    }
+    
+    /* 選択肢数にかかわらず、常に2列レイアウト */
+    #options-container.name-select-mode {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    
+    #options-container.name-select-mode.four-options {
+        display: grid;
+        flex-wrap: wrap;
+    }
+    
+    .option.name-option.four-options,
+    .option.name-option.three-options {
+        width: 100%;
+        height: 120px;
+    }
+    
+    /* テキストサイズの調整 */
+    .talent-name {
+        font-size: 1.2rem;
+    }
+    
+    .talent-kana, .talent-dormitory {
+        font-size: 12px;
+    }
+    
+    /* 連続正解表示の調整 */
+    #streak-container {
+        padding: 8px;
+        min-height: auto;
+    }
+    
+    #streak-message {
+        font-size: 0.7em;
+    }
+
+    /* モバイル表示時の画像選択肢を完璧に中央揃えに！ */
+    .image-option {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        width: 100% !important;
+        margin: 0 !important;
+    }
+    
+    .image-option img {
+        margin-left: auto !important;
+        margin-right: auto !important;
+        max-width: 90%;
+        width: auto;
+        display: block;
+    }
+    
+    #options-container .option.image-option {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+/* さらに小さい画面のための追加調整 */
+@media (max-width: 480px) {
+    /* タイトルをさらにコンパクトに */
+    h1 {
+        font-size: 20px;
+    }
+    
+    /* ボタンを縦に並べる */
+    .mode-selector, .options-selector, .difficulty-selector {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    button {
+        width: 100%;
+        margin: 3px 0;
+    }
+    
+    /* 画像サイズをさらに縮小 */
+    #question-image img {
+        max-width: 200px;
+        max-height: 200px;
+    }
+    
+    .option img {
+        width: 120px;
+        height: 120px;
+    }
+    
+    /* 選択肢の高さを調整 */
+    .option.name-option {
+        height: 100px;
+    }
+    
+    /* 統計情報をさらにコンパクトに */
+    .stat-item {
+        padding: 2px 3px;
+        font-size: 0.8rem;
+    }
+    
+    .stat-item .stat-label {
+        font-size: 0.7rem;
+    }
+    
+    .stat-item .stat-value {
+        font-size: 1rem;
+    }
+}

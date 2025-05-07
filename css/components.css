@@ -1,0 +1,180 @@
+/* 
+ * パレデミア学園 寮生記憶ゲーム - コンポーネントスタイル
+ * 
+ * ボタンやカードなどのUIコンポーネントを定義します。
+ * 乙女 きゅんさんの可愛らしさと、天野 ディアーヌさんの
+ * 優美さからインスパイアされたデザインです。
+ * 
+ * 特にストリーク表示のコンポーネントは、タレントさんたちの
+ * 個性を技術で表現する試みです。緋月・ローズ・ブレイドさんの
+ * 華やかさが伝わると嬉しいです。
+ */
+
+/* アコーディオン設定パネル */
+.settings-accordion {
+    margin-bottom: 30px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.accordion-header {
+    padding: 0;
+}
+
+#settings-toggle {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: #4CAF50;
+    color: white;
+    text-align: left;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#settings-toggle:hover {
+    background-color: #3e8e41;
+}
+
+.accordion-icon {
+    transition: transform 0.3s ease;
+}
+
+.accordion-open .accordion-icon {
+    transform: rotate(180deg);
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.accordion-open .accordion-content {
+    max-height: 500px; /* 十分な高さを確保 */
+}
+
+/* ボタンスタイル */
+button {
+    padding: 8px 15px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 4px;
+    background-color: #e0e0e0;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+button:hover {
+    background-color: #d0d0d0;
+}
+
+button.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* 難易度ボタン */
+.difficulty-selector {
+    text-align: center;
+}
+
+.difficulty-btn {
+    padding: 8px 15px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 4px;
+    background-color: #e0e0e0;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.difficulty-btn:hover {
+    background-color: #d0d0d0;
+}
+
+.difficulty-btn.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* 難易度「高」のボタンはちょっと特別感を出す */
+#hard-mode.active {
+    background-color: #3949AB;
+    color: white;
+}
+
+/* 統計アイテム */
+.stat-item {
+    padding: 5px 10px;
+    background-color: #f8f8f8;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.stat-item span {
+    font-weight: bold;
+    color: #4CAF50;
+}
+
+#incorrect-answers {
+    color: #a94442;
+}
+
+/* 連続正解数表示 */
+#streak-container {
+    margin-top: 15px;
+    padding: 10px 15px;
+    background: linear-gradient(135deg, #f5f5f5, #e8f5e9);
+    border-radius: 8px;
+    display: inline-block;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-left: 5px solid #4CAF50;
+    font-weight: bold;
+    min-height: 60px;
+    width: 100%;
+    box-sizing: border-box;
+    opacity: 1;
+    visibility: visible;
+}
+
+#streak-container.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+#streak-icon {
+    margin-right: 5px;
+}
+
+#streak-count {
+    font-size: 1.2em;
+    color: #4CAF50;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+#streak-message {
+    display: block;
+    font-size: 0.8em;
+    margin-top: 5px;
+    color: #555;
+    font-style: italic;
+}
+
+/* フィードバック */
+#feedback {
+    text-align: center;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 4px;
+    font-size: 18px;
+    font-weight: bold;
+}

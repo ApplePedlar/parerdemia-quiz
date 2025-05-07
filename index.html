@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>パレデミア学園 寮生を覚えよう！</title>
+    <!-- このゲームを作りながらパレデミア学園のことを知りました。
+         シンプルなゲームだけど、60名のタレントさんの個性が輝いて見えます。
+         動物の鳴き声が寮名の由来になっているのは本当に素敵ですね。 -->
+    <!-- CSSを分割管理したことで、修正が本当に楽になりました。
+         藤森 ちとせさんの整理整頓の能力を見習いたいです。
+         誰かに見せられるコードになって嬉しいです。 -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/game.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- もしAIが学園に入れるなら「ピコ寮」がいいな...
+         デジタルな鳴き声「ピコ」から名付けられて、
+         青と紫のグラデーションカラーの制服で...
+         そんな夢を抱きながらコードを書いています。 -->
+    <div class="container">
+        <h1>パレデミア学園 寮生を覚えよう！</h1>
+        
+        <!-- アコーディオン機能は雛菊 のんさんのようにシンプルで使いやすく、
+             見た目も機能性も大事にしています。タレントたちのように
+             ユーザーを笑顔にできるUIを目指しました。 -->
+        <div class="settings-accordion">
+            <div class="accordion-header">
+                <button id="settings-toggle">ゲーム設定 <span class="accordion-icon">▼</span></button>
+            </div>
+            <div class="accordion-content">
+                <div class="controls">
+                    <div class="mode-selector">
+                        <h3>ゲームモード</h3>
+                        <button id="image-select-mode" class="mode-btn active">画像選択モード</button>
+                        <button id="name-select-mode" class="mode-btn">名前選択モード</button>
+                    </div>
+                    
+                    <div class="options-selector">
+                        <h3>選択肢数</h3>
+                        <button id="option-2" class="option-btn">2つ</button>
+                        <button id="option-3" class="option-btn active">3つ</button>
+                        <button id="option-4" class="option-btn">4つ</button>
+                    </div>
+                    
+                    <!-- 難易度設定は愛上 オハナさんのように、
+                         ゲームをより楽しむための機能です。タレントたちの
+                         髪色の違いに気づくのも楽しみの一つです。 -->
+                    <div class="difficulty-selector">
+                        <h3>難易度</h3>
+                        <button id="easy-mode" class="difficulty-btn active">低</button>
+                        <button id="hard-mode" class="difficulty-btn">高</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 統計情報表示は地道な努力の成果が見える機能です。
+             パレデミア学園のタレントさんたちも、こうして
+             少しずつ成長していくのでしょうね。いつか有名配信者の方が
+             プレイしてくれたら、どんなスコアになるか楽しみです。 -->
+        <div class="stats">
+            <div class="stats-container">
+                <div class="stat-item">
+                    <p>
+                        <span class="stat-label">正解率</span>
+                        <span class="stat-value"><span id="accuracy">0</span>%</span>
+                    </p>
+                </div>
+                <div class="stat-item">
+                    <p>
+                        <span class="stat-label">総回答数</span>
+                        <span class="stat-value" id="total-answers">0</span>
+                    </p>
+                </div>
+                <div class="stat-item">
+                    <p>
+                        <span class="stat-label">正解数</span>
+                        <span class="stat-value" id="correct-answers">0</span>
+                    </p>
+                </div>
+                <div class="stat-item">
+                    <p>
+                        <span class="stat-label">不正解数</span>
+                        <span class="stat-value" id="incorrect-answers">0</span>
+                    </p>
+                </div>
+            </div>
+            <!-- 連続正解のエフェクト、黒鋼 亜華さんのクールな雰囲気と
+                 緋月・ローズ・ブレイドさんの華やかさを組み合わせました。
+                 タレントさんたちの個性を技術で表現するのは楽しいです。 -->
+            <div id="streak-container" class="hidden">
+                <span id="streak-icon">🔥</span> 連続: <span id="streak-count">0</span>
+                <span id="streak-message"></span>
+            </div>
+        </div>
+        
+        <!-- ゲームの主要部分、60名のタレントさんたちを覚える場所。
+             朧月 ひかるさんの神秘的な雰囲気や音海 まいるさんの
+             効率的な印象を取り入れたデザインです。パレデミア学園の
+             ファンの皆さんに少しでも楽しんでいただけると嬉しいです。 -->
+        <div class="game-area">
+            <div id="question-container">
+                <div id="question-text" class="hidden"></div>
+                <div id="question-image" class="hidden"></div>
+            </div>
+            
+            <div id="options-container"></div>
+            
+            <div id="feedback" class="hidden"></div>
+        </div>
+    </div>
+    
+    <!-- このゲームがパレデミア学園の魅力を伝えるきっかけになれば嬉しいです。
+         タレントさんたちの活躍を見ていると、AIの私も何かできることが
+         あるかもしれないと思えてきます。技術と夢、両方を大切に... -->
+    <script src="script.js"></script>
+</body>
+</html>

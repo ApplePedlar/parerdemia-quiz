@@ -1,0 +1,322 @@
+/* 
+ * パレデミア学園 寮生記憶ゲーム - ゲームスタイル
+ *
+ * ゲーム特有の要素のスタイルを定義します。
+ * 相栖 るじゅさんの美しさと、愛葉 はなさんの
+ * 親しみやすさをバランスよく取り入れました。
+ * 
+ * 選択肢の表示方法は特にこだわりました。タレントさんたちの
+ * 魅力が最大限に伝わるよう、細部まで調整しています。
+ * このパートが特に気に入っています。
+ */
+
+#question-text {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+#question-image img {
+    max-width: 250px;
+    max-height: 250px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+}
+
+/* 選択肢数に応じたオプションのスタイル */
+.option.name-option {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 200px;
+    height: 150px;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.option.name-option.four-options {
+    width: 180px;
+    height: 150px;
+}
+
+.option.name-option.three-options {
+    width: 190px;
+    height: 150px;
+}
+
+/* 正解の選択肢強調表示 */
+.option.correct-highlight {
+    box-shadow: 0 0 15px 5px rgba(76, 175, 80, 0.8);
+    border-width: 4px;
+    border-color: #4CAF50;
+    z-index: 10;
+}
+
+.option.name-option.correct-highlight {
+    transform: scale(1.05);
+    animation: pulse 1.5s infinite;
+}
+
+/* テキスト部分のスタイル */
+.option-text.centered {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* 回答後の名前表示 */
+.option.answered .option-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 4px;
+    z-index: 2;
+    width: 100%;
+    max-height: 30px;
+    box-sizing: border-box;
+}
+
+.option.answered .talent-name {
+    font-size: 1rem;
+    padding: 2px 4px;
+    text-align: center;
+    width: 100%;
+}
+
+.option.correct .option-text {
+    background-color: rgba(0, 120, 0, 0.7);
+    color: white;
+}
+
+.option.incorrect .option-text {
+    background-color: rgba(150, 0, 0, 0.7);
+    color: white;
+}
+
+.option {
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+.option:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.option img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+
+/* 画像選択モードの選択肢スタイル調整 */
+.image-option {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 220px; /* 固定幅を設定してフレックスボックスで横並びを保証 */
+    margin: 10px; /* 周囲に余白を追加 */
+    flex-shrink: 0; /* 画像が縮まないようにする */
+}
+
+.image-option img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* 画像選択モードでのオーバーレイスタイル */
+.image-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 8px;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    text-align: center;
+    max-height: 35%;
+}
+
+.image-overlay .talent-name {
+    font-size: 0.9rem !important;
+    margin-bottom: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.image-overlay .talent-meta-info {
+    font-size: 0.8rem;
+    color: #eee;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 回答後のオーバーレイ表示調整 */
+.show-answer .image-overlay,
+.option.selected .image-overlay {
+    transform: translateY(0);
+    background: rgba(0, 0, 0, 0.6);
+}
+
+/* 正解・不正解時のオーバーレイスタイル */
+.correct .image-overlay,
+.option.correct .image-overlay {
+    background: rgba(76, 175, 80, 0.7);
+}
+
+.incorrect .image-overlay,
+.option.incorrect .image-overlay {
+    background: rgba(244, 67, 54, 0.7);
+}
+
+/* 名前選択モードでの背景画像スタイル */
+.option-text {
+    padding: 10px;
+    text-align: center;
+    min-width: 200px;
+    position: relative;
+    z-index: 2;
+    background-color: rgba(249, 249, 249, 0.85);
+}
+
+.bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+}
+
+.show-answer .bg-image,
+.option.selected .bg-image {
+    opacity: 0.25;
+}
+
+.option.name-option.answered .bg-image {
+    opacity: 0.9;
+    visibility: visible;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.option.name-option.answered .option-text {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.option.correct.answered .option-text {
+    background-color: rgba(0, 120, 0, 0.6);
+}
+
+.option.incorrect.answered .option-text {
+    background-color: rgba(150, 0, 0, 0.6);
+}
+
+.option.name-option.answered .option-text {
+    top: 0;
+    max-height: 26px;
+    padding: 2px;
+}
+
+.option.name-option.answered .talent-name {
+    font-size: 0.9rem;
+    text-shadow: 0 0 3px #000000, 0 0 5px #000000;
+    color: white;
+    font-weight: bold;
+}
+
+/* 選択したオプションの強調表示 */
+.option.selected {
+    border-color: #4CAF50;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+}
+
+.option.incorrect {
+    border-color: #f44336;
+    box-shadow: 0 0 10px rgba(244, 67, 54, 0.5);
+}
+
+.option.correct {
+    border-color: #4CAF50;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+}
+
+.talent-name {
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+}
+
+.talent-kana {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 3px;
+}
+
+.talent-dormitory {
+    font-size: 14px;
+    color: #777;
+    font-weight: normal;
+}
+
+.talent-info {
+    margin-top: 10px;
+    padding: 8px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+}
+
+.correct {
+    background-color: #dff0d8;
+    color: #3c763d;
+}
+
+.incorrect {
+    background-color: #f2dede;
+    color: #a94442;
+}
+
+/* 正解表示用スタイル */
+.correct-answer {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #f8f8f8;
+    border-radius: 4px;
+    font-weight: normal;
+}
+
+.correct-image {
+    max-width: 150px;
+    max-height: 150px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 8px;
+}
