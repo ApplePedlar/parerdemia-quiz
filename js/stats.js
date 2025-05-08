@@ -35,10 +35,10 @@ function resetAllStats() {
 // 正解率と統計情報の更新
 function updateAccuracy() {
     // 正解率の計算と表示
-    if (gameState.answerHistory.length === 0) return;
+    if (gameState.totalAnswers === 0) return;
     
-    const correctCount = gameState.answerHistory.filter(result => result).length;
-    const accuracy = Math.round((correctCount / gameState.answerHistory.length) * 100);
+    // 履歴ではなく、トータルの正解数と回答数から正解率を計算
+    const accuracy = Math.round((gameState.correctAnswers / gameState.totalAnswers) * 100);
     
     document.getElementById('accuracy').textContent = accuracy;
     

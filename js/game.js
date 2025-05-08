@@ -251,7 +251,7 @@ function checkAnswer(event) {
     // 結果を履歴に追加
     gameState.answerHistory.push(isCorrect);
     
-    // 最大60問分だけ履歴を保持
+    // 最大60問分だけ履歴を保持（将来的な使用のため維持）
     if (gameState.answerHistory.length > 60) {
         gameState.answerHistory.shift();
     }
