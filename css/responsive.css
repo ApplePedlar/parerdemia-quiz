@@ -26,6 +26,13 @@
         max-height: 0;
     }
     
+    /* ゲーム設定ボタンの高さを小さく調整 */
+    #settings-toggle {
+        padding: 8px 15px;
+        font-size: 15px;
+        line-height: 1.2;
+    }
+    
     /* コントロールを縦並びに */
     .controls {
         flex-direction: column;
@@ -291,16 +298,28 @@
         font-size: 20px;
     }
     
-    /* ボタンを縦に並べる */
+    /* ボタンを横に並べる - 縦並びから変更 */
     .mode-selector, .options-selector, .difficulty-selector {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
         align-items: center;
+        gap: 4px;
     }
     
     button {
-        width: 100%;
-        margin: 3px 0;
+        width: auto;
+        margin: 3px;
+        padding: 5px 8px;
+        font-size: 13px;
+    }
+    
+    /* ゲーム設定ボタンをさらに小さく */
+    #settings-toggle {
+        padding: 6px 12px;
+        font-size: 14px;
+        width: 100%; /* 設定ボタン自体は全幅維持 */
     }
     
     /* 画像サイズをさらに縮小 */
