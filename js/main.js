@@ -19,6 +19,8 @@ const gameState = {
     totalAnswers: 0, // 総回答数
     correctAnswers: 0, // 正解数
     incorrectAnswers: 0, // 不正解数
+    shuffledTalents: [], // シャッフルされたタレントのインデックスリスト
+    currentIndex: 0, // 現在の出題位置
     recentlyUsedTalents: [] // 最近出題したタレントを記録
 };
 

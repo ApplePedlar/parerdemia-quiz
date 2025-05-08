@@ -14,3 +14,21 @@ function shuffleArray(array) {
     }
     return array;
 }
+
+/**
+ * タレントデータをシャッフルする関数
+ * 
+ * 全タレントをシャッフルして順番に出題するための準備をします。
+ * パレデミア学園の生徒たちがランダムに紹介されるような
+ * 感覚です。シャッフルアルゴリズムはフィッシャー–イェーツです。
+ */
+function shuffleTalents() {
+    // 全タレントのインデックスを配列に保存
+    const indices = Array.from({length: gameState.talents.length}, (_, i) => i);
+    // インデックスをシャッフル
+    shuffleArray(indices);
+    // シャッフルされたインデックスを保存
+    gameState.shuffledTalents = indices;
+    // 出題位置をリセット
+    gameState.currentIndex = 0;
+}

@@ -27,6 +27,8 @@ function loadTalents() {
 // JSONPコールバック関数
 function loadTalentsCallback(data) {
     gameState.talents = data;
+    // タレントデータをシャッフル
+    shuffleTalents();
     // データ読み込み完了後に問題を生成
     generateQuestion();
 }

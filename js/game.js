@@ -7,7 +7,13 @@
  * 再発見できました。
  */
 
-// ゲームモードの設定
+/**
+ * ゲームモードの設定
+ * 
+ * 「画像選択」と「名前選択」の2つのモードを切り替えます。
+ * モード変更時にはタレントリストを再シャッフルし、
+ * 一からタレントと出会う旅が始まります。
+ */
 function setGameMode(mode) {
     if (gameState.isWaitingForNext) return;
     
@@ -16,32 +22,33 @@ function setGameMode(mode) {
     // ボタンの見た目を更新
     document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
     
-    if (mode === 'image-select') {
-        document.getElementById('image-select-mode').classList.add('active');
-    } else {
-        document.getElementById('name-select-mode').classList.add('active');
-    }
+    const buttonId = mode === 'image-select' ? 'image-select-mode' : 'name-select-mode';
+    document.getElementById(buttonId).classList.add('active');
     
-    // ゲームモードの説明文を更新
-    updateGameModeDescription();
+    // モード説明のテキストを更新
+    const descText = document.getElementById('mode-description-text');
+    if (mode === 'image-select') {
+        descText.textContent = 'このタレントの顔はどれ？';
+    } else {
+        descText.textContent = 'この顔のタレントは誰？';
+    }
     
     // すべての統計情報をリセット
     resetAllStats();
     
+    // タレントをシャッフル
+    shuffleTalents();
+    
     generateQuestion();
 }
 
-// ゲームモードの説明文を更新する関数
-function updateGameModeDescription() {
-    const descriptionElement = document.getElementById('mode-description-text');
-    if (gameState.mode === 'image-select') {
-        descriptionElement.textContent = 'このタレントの顔はどれ？';
-    } else if (gameState.mode === 'name-select') {
-        descriptionElement.textContent = 'このタレントは誰？';
-    }
-}
-
-// 選択肢数の設定
+/**
+ * 選択肢数の設定
+ * 
+ * 選択肢数が変わるとゲームの難易度も変わります。
+ * 設定変更で再シャッフルされるので、
+ * タレントたちとの出会い方も変わります。
+ */
 function setOptionsCount(count) {
     if (gameState.isWaitingForNext) return;
     
@@ -49,10 +56,15 @@ function setOptionsCount(count) {
     
     // ボタンの見た目を更新
     document.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('active'));
-    document.getElementById(`option-${count}`).classList.add('active');
+    
+    const buttonId = `option-${count}`;
+    document.getElementById(buttonId).classList.add('active');
     
     // すべての統計情報をリセット
     resetAllStats();
+    
+    // タレントをシャッフル
+    shuffleTalents();
     
     generateQuestion();
 }
@@ -63,6 +75,7 @@ function setOptionsCount(count) {
  * 難易度「高」は同じ髪色のタレントから選ぶ必要があり、
  * 黒鋼亜華さんのような鋭い観察力が求められます。
  * タレントの特徴をより深く知る機会になればと思います。
+ * 設定変更でタレントリストも再シャッフルされます。
  */
 function setDifficulty(difficulty) {
     if (gameState.isWaitingForNext) return;
@@ -78,10 +91,20 @@ function setDifficulty(difficulty) {
     // すべての統計情報をリセット
     resetAllStats();
     
+    // タレントをシャッフル
+    shuffleTalents();
+    
     generateQuestion();
 }
 
-// 問題の生成
+/**
+ * 問題の生成
+ * 
+ * シャッフルされたタレントリストから順番に出題します。
+ * 全タレントを出題し終わったら最初から再開します。
+ * こうして60名全員のタレントさんと出会うことができます。
+ * 一巡すると達成感もありますね！
+ */
 function generateQuestion() {
     if (gameState.isWaitingForNext) return;
     
@@ -93,49 +116,19 @@ function generateQuestion() {
     feedback.className = 'hidden';
     feedback.innerHTML = '';
     
-    /**
-     * 最近出題したタレントを避けて、新しいタレントを選択
-     * 
-     * この機能で同じタレントが短期間に何度も出題されることを防ぎます。
-     * プレイヤーにとって新鮮な問題が続くので、より多くのパレデミア学園の
-     * タレントと出会う機会が増えるはず！記憶力を鍛えるのに最適です。
-     */
-    // 出題可能なタレントのインデックスのリストを作成
-    const availableIndices = [];
-    const halfTalentsCount = Math.floor(gameState.talents.length / 2);
-    
-    // 最近出題されていないタレントのインデックスを集める
-    for (let i = 0; i < gameState.talents.length; i++) {
-        if (!gameState.recentlyUsedTalents.includes(i)) {
-            availableIndices.push(i);
-        }
-    }
-    
-    // 出題可能なタレントがない場合は、最も古く出題されたタレントを使用可能にする
-    if (availableIndices.length === 0) {
-        const oldestTalentIndex = gameState.recentlyUsedTalents.shift();
-        availableIndices.push(oldestTalentIndex);
-    }
-    
-    // 出題可能なタレントからランダムに選択
-    const randomAvailableIndex = Math.floor(Math.random() * availableIndices.length);
-    const correctIndex = availableIndices[randomAvailableIndex];
+    // シャッフルされたリストから現在の位置のタレントを選択
+    const correctIndex = gameState.shuffledTalents[gameState.currentIndex];
     const correctTalent = gameState.talents[correctIndex];
     
-    // 選択したタレントを最近出題したリストに追加
-    gameState.recentlyUsedTalents.push(correctIndex);
-    
-    // リストが全タレント数の半分より長くなったら、古いものから削除
-    while (gameState.recentlyUsedTalents.length > halfTalentsCount) {
-        gameState.recentlyUsedTalents.shift();
-    }
+    // 次の位置に進む
+    gameState.currentIndex = (gameState.currentIndex + 1) % gameState.shuffledTalents.length;
     
     // 他の選択肢を生成（重複なし）
     const otherOptions = [];
     const usedIndices = new Set([correctIndex]);
     
     if (gameState.difficulty === 'easy') {
-        // 難易度低: 完全ランダムな選択肢生成（既存のロジック）
+        // 難易度低: 完全ランダムな選択肢生成
         while (otherOptions.length < gameState.optionsCount - 1) {
             const randomIndex = Math.floor(Math.random() * gameState.talents.length);
             if (!usedIndices.has(randomIndex)) {
