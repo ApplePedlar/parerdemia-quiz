@@ -235,6 +235,53 @@
     .game-title-decoration {
         gap: 10px;
     }
+
+    /* モバイル表示での余白最適化 */
+    .settings-accordion {
+        margin-bottom: 8px; /* 15pxから8pxに減らしてよりコンパクトに */
+    }
+    
+    .accordion-content {
+        /* padding: 8px; を削除 - アコーディオン表示の問題を解決 */
+    }
+    
+    /* ストリークとフィードバック */
+    #streak-container {
+        margin-top: 8px;
+        padding: 8px 10px;
+        min-height: 50px;
+    }
+    
+    #feedback {
+        padding: 10px;
+        margin-top: 10px;
+    }
+    
+    /* ゲームタイトル */
+    .game-title-container {
+        margin: 8px auto 12px;
+    }
+    
+    .game-title-inner {
+        padding: 3px 10px;
+    }
+    
+    /* ボタンとUIコントロール */
+    button, .difficulty-btn {
+        padding: 6px 10px;
+        margin: 0 3px;
+    }
+    
+    /* 統計表示 */
+    .stat-item {
+        padding: 4px 8px;
+        margin: 3px 0;
+    }
+    
+    /* 選択肢とゲーム要素 */
+    .option, .game-container > div {
+        margin-bottom: 8px;
+    }
 }
 
 /* さらに小さい画面のための追加調整 */
