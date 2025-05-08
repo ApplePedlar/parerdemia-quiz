@@ -22,10 +22,23 @@ function setGameMode(mode) {
         document.getElementById('name-select-mode').classList.add('active');
     }
     
+    // ゲームモードの説明文を更新
+    updateGameModeDescription();
+    
     // すべての統計情報をリセット
     resetAllStats();
     
     generateQuestion();
+}
+
+// ゲームモードの説明文を更新する関数
+function updateGameModeDescription() {
+    const descriptionElement = document.getElementById('mode-description-text');
+    if (gameState.mode === 'image-select') {
+        descriptionElement.textContent = 'このタレントの顔はどれ？';
+    } else if (gameState.mode === 'name-select') {
+        descriptionElement.textContent = 'このタレントは誰？';
+    }
 }
 
 // 選択肢数の設定

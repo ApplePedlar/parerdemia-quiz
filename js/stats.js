@@ -19,10 +19,21 @@ function resetAllStats() {
     gameState.correctAnswers = 0;
     gameState.incorrectAnswers = 0;
     
-    // 連続正解数の表示を隠す
+    // 連続正解数の表示を隠し、代わりに説明文を表示
     const streakContainer = document.getElementById('streak-container');
+    const descriptionContainer = document.getElementById('game-mode-description');
+    
     if (streakContainer) {
         streakContainer.classList.add('hidden');
+    }
+    
+    if (descriptionContainer) {
+        descriptionContainer.classList.remove('hidden');
+    }
+    
+    // ゲームモードの説明文を更新
+    if (typeof updateGameModeDescription === 'function') {
+        updateGameModeDescription();
     }
     
     // 統計情報を更新（0に戻す）
@@ -62,13 +73,20 @@ function updateAccuracy() {
  */
 function updateStreakDisplay() {
     const streakContainer = document.getElementById('streak-container');
+    const descriptionContainer = document.getElementById('game-mode-description');
     const streakElement = document.getElementById('streak-count');
     const streakMessage = document.getElementById('streak-message');
     
     if (gameState.streakCount <= 0) {
         streakContainer.classList.add('hidden');
+        // 連続正解数が表示されていないときは説明文を表示
+        descriptionContainer.classList.remove('hidden');
         return;
     }
+    
+    // 連続正解数を表示するときは説明文を非表示
+    descriptionContainer.classList.add('hidden');
+    streakContainer.classList.remove('hidden');
     
     // アイコンの設定（ストリークレベルに応じて変更）
     const streakIcon = document.getElementById('streak-icon');

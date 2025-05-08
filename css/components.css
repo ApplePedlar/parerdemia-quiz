@@ -130,24 +130,26 @@ button.active {
 #streak-container {
     margin-top: 15px;
     padding: 10px 15px;
-    background: linear-gradient(135deg, #f5f5f5, #f0f4f8); /* より薄いグラデーション */
+    background: linear-gradient(135deg, #f5f5f5, #f0f4f8);
     border-radius: 8px;
-    display: inline-block;
+    display: flex;
     transition: all 0.3s ease;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    border-left: 5px solid #a3b8c9; /* 左ボーダーも薄い色に */
+    border-left: 5px solid #a3b8c9;
     font-weight: bold;
-    min-height: 60px;
+    height: 60px;
     width: 100%;
     box-sizing: border-box;
-    opacity: 1;
-    visibility: visible;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
 #streak-container.hidden {
     opacity: 0;
     visibility: hidden;
-    pointer-events: none;
+    position: absolute;
+    z-index: -1;
 }
 
 #streak-icon {
@@ -167,6 +169,42 @@ button.active {
     margin-top: 5px;
     color: #555;
     font-style: italic;
+}
+
+/* ゲームモード説明文 */
+.mode-description {
+    margin-top: 15px;
+    padding: 10px 15px;
+    background: linear-gradient(135deg, #f5f5f5, #f0f4f8);
+    border-radius: 8px;
+    display: flex;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-left: 5px solid #a3b8c9;
+    font-weight: bold;
+    height: 60px;
+    width: 100%;
+    box-sizing: border-box;
+    opacity: 1;
+    visibility: visible;
+    text-align: center;
+    font-size: 1rem;
+    color: #4a5a68;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.mode-description.hidden {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+#mode-description-text {
+    display: block;
+    padding: 2px 0;
 }
 
 /* フィードバック */

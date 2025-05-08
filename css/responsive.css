@@ -85,13 +85,18 @@
     }
     
     /* 連続正解表示も横幅いっぱいに効率的に */
-    #streak-container {
+    #streak-container, .mode-description {
         padding: 5px 8px;
         min-height: auto;
         display: flex;
         justify-content: center;
         align-items: center;
         flex-wrap: wrap;
+        height: 50px;
+    }
+    
+    .streak-container-wrapper {
+        height: 50px !important;
     }
     
     #streak-count {
@@ -104,6 +109,12 @@
         text-align: center;
         font-size: 0.7rem;
         margin-top: 2px;
+    }
+    
+    #mode-description-text {
+        font-size: 0.85rem;
+        text-align: center;
+        width: 100%;
     }
     
     /* ゲームエリアのパディングを減らす */
