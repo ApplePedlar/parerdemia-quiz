@@ -26,7 +26,7 @@
 #settings-toggle {
     width: 100%;
     padding: 12px 15px;
-    background-color: #4CAF50;
+    background-color: #97aec0; /* さらに薄い柔らかいブルーグレーに変更 */
     color: white;
     text-align: left;
     border: none;
@@ -38,7 +38,7 @@
 }
 
 #settings-toggle:hover {
-    background-color: #3e8e41;
+    background-color: #8aa2b5; /* ホバー時も薄めの色に */
 }
 
 .accordion-icon {
@@ -75,7 +75,7 @@ button:hover {
 }
 
 button.active {
-    background-color: #4CAF50;
+    background-color: #a3b8c9; /* さらに薄く柔らかい色に変更 */
     color: white;
 }
 
@@ -99,13 +99,13 @@ button.active {
 }
 
 .difficulty-btn.active {
-    background-color: #4CAF50;
+    background-color: #a3b8c9; /* 統一感のある薄い色に */
     color: white;
 }
 
 /* 難易度「高」のボタンはちょっと特別感を出す */
 #hard-mode.active {
-    background-color: #3949AB;
+    background-color: #8da4b7; /* 少し濃いが全体的に薄い */
     color: white;
 }
 
@@ -119,7 +119,7 @@ button.active {
 
 .stat-item span {
     font-weight: bold;
-    color: #4CAF50;
+    color: #97aec0; /* 統計値も薄く柔らかい色に */
 }
 
 #incorrect-answers {
@@ -130,12 +130,12 @@ button.active {
 #streak-container {
     margin-top: 15px;
     padding: 10px 15px;
-    background: linear-gradient(135deg, #f5f5f5, #e8f5e9);
+    background: linear-gradient(135deg, #f5f5f5, #f0f4f8); /* より薄いグラデーション */
     border-radius: 8px;
     display: inline-block;
     transition: all 0.3s ease;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    border-left: 5px solid #4CAF50;
+    border-left: 5px solid #a3b8c9; /* 左ボーダーも薄い色に */
     font-weight: bold;
     min-height: 60px;
     width: 100%;
@@ -156,7 +156,7 @@ button.active {
 
 #streak-count {
     font-size: 1.2em;
-    color: #4CAF50;
+    color: #97aec0; /* より薄い色に変更 */
     font-weight: bold;
     transition: all 0.3s ease;
 }

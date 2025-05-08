@@ -48,9 +48,9 @@
 
 /* 正解の選択肢強調表示 */
 .option.correct-highlight {
-    box-shadow: 0 0 15px 5px rgba(76, 175, 80, 0.8);
+    box-shadow: 0 0 15px 5px rgba(122, 148, 168, 0.6); /* より薄い影の色 */
     border-width: 4px;
-    border-color: #4CAF50;
+    border-color: #829aad; /* 薄いブルーに統一 */
     z-index: 10;
 }
 
@@ -269,14 +269,14 @@
 
 /* 選択したオプションの強調表示 */
 .option.selected {
-    border-color: #4CAF50;
+    border-color: #829aad; /* ボーダー色を統一 */
     box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
 }
 
 /* 正解・不正解のハイライト強化 */
 .option.correct-highlight {
-    border: 2px solid #4CAF50;
-    box-shadow: 0 0 15px rgba(76, 175, 80, 0.8);
+    border: 2px solid #829aad; /* 薄い青系に変更 */
+    box-shadow: 0 0 15px rgba(122, 148, 168, 0.6); /* 影も薄く */
     transform: translateY(-3px);
     transition: all 0.3s ease;
 }
@@ -328,13 +328,13 @@
 
 /* フィードバック表示の強化 */
 #feedback.correct {
-    background: linear-gradient(135deg, #dff0d8, #c8e6c9);
-    color: #2E7D32;
+    background: linear-gradient(135deg, #ebf1f5, #dce5ec); /* 薄いブルーグラデーション */
+    color: #5d7a8e; /* テキスト色も馴染むように */
     font-weight: bold;
     padding: 15px 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-left: 5px solid #4CAF50;
+    border-left: 5px solid #829aad; /* 左ボーダーも統一 */
 }
 
 #feedback.incorrect {

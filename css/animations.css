@@ -62,16 +62,16 @@
 
 /* 全タレント制覇時のスタイル */
 #streak-container.streak-complete {
-    background: linear-gradient(135deg, #ffd700, #ffab00);
-    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
-    border-left: 5px solid #ff6f00;
+    background: linear-gradient(135deg, #ebf1f5, #dce5ec); /* 薄いブルーのグラデーション */
+    box-shadow: 0 6px 20px rgba(122, 148, 168, 0.4); /* 薄い影 */
+    border-left: 5px solid #6d8296; /* 左ボーダーも統一した色味に */
     transform: scale(1.15);
-    color: #5d4037;
+    color: #5d7a8e; /* テキスト色も調整 */
     animation: celebrate 1s ease-in-out infinite, rainbow-border 2s linear infinite;
 }
 
 #streak-count.streak-complete {
-    color: #ff6f00;
+    color: #6d8296; /* テキスト色も統一 */
     font-size: 1.6em;
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
 }
