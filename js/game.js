@@ -48,7 +48,7 @@ function setOptionsCount(count) {
  * 難易度の設定
  * 
  * 難易度「高」は同じ髪色のタレントから選ぶ必要があり、
- * 黒鋼 亜華さんのような鋭い観察力が求められます。
+ * 黒鋼亜華さんのような鋭い観察力が求められます。
  * タレントの特徴をより深く知る機会になればと思います。
  */
 function setDifficulty(difficulty) {
@@ -182,7 +182,7 @@ function generateQuestion() {
 /**
  * 答えのチェック
  * 
- * 神童 めしあさんの天才的な判断力を讃えて、
+ * 神童めしあさんの天才的な判断力を讃えて、
  * 厳密かつ公平な正誤判定を行います。
  */
 function checkAnswer(event) {
