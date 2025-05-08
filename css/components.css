@@ -109,6 +109,13 @@ button.active {
     color: white;
 }
 
+/* 難易度「鬼」のボタンは迫力を出す */
+#oni-mode.active {
+    background-color: #754c56; /* 赤みがかった暗い色 */
+    color: white;
+    box-shadow: 0 0 5px rgba(117, 76, 86, 0.5);
+}
+
 /* 統計アイテム */
 .stat-item {
     padding: 5px 10px;

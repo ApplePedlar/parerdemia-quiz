@@ -137,6 +137,13 @@
   100% {transform: translateY(0); opacity: 1;}
 }
 
+/* 時間切れアニメーション */
+@keyframes timeUpShake {
+  0%, 100% {transform: translateX(0);}
+  10%, 30%, 50%, 70%, 90% {transform: translateX(-5px);}
+  20%, 40%, 60%, 80% {transform: translateX(5px);}
+}
+
 /* 正解・不正解時の共通アニメーションクラス */
 .animated-feedback {
   animation-duration: 0.8s;
@@ -160,4 +167,10 @@
 
 .feedback-animation {
   animation: slideInTop 0.5s ease forwards;
+}
+
+.time-up-animation {
+  animation: timeUpShake 0.5s;
+  border-color: #ff0000 !important;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.7) !important;
 }

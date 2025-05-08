@@ -7,6 +7,26 @@
  * 再発見できました。
  */
 
+// ゲームの状態 - グローバルにエクスポートして他のファイルからアクセス可能にします
+window.gameState = {
+    mode: 'image-select',
+    optionsCount: 4,
+    difficulty: 'easy', // 'easy', 'hard', 'oni'
+    talents: [],
+    shuffledTalents: [],
+    currentIndex: 0,
+    currentQuestion: null,
+    correctAnswers: 0,
+    incorrectAnswers: 0,
+    totalAnswers: 0,
+    streakCount: 0,
+    answerHistory: [],
+    isWaitingForNext: false,
+    timer: null,        // タイマーID
+    timeLeft: 3000,     // 残り時間（ミリ秒）
+    isTimerActive: false
+};
+
 /**
  * ゲームモードの設定
  * 
@@ -74,6 +94,8 @@ function setOptionsCount(count) {
  * 
  * 難易度「高」は同じ髪色のタレントから選ぶ必要があり、
  * 黒鋼亜華さんのような鋭い観察力が求められます。
+ * 難易度「鬼」はさらにタレント総選挙で1位に輝いた
+ * 神童めしあさんでも焦る3秒の時間制限付きです！
  * タレントの特徴をより深く知る機会になればと思います。
  * 設定変更でタレントリストも再シャッフルされます。
  */
@@ -85,7 +107,9 @@ function setDifficulty(difficulty) {
     // ボタンの見た目を更新
     document.querySelectorAll('.difficulty-btn').forEach(btn => btn.classList.remove('active'));
     
-    const buttonId = difficulty === 'easy' ? 'easy-mode' : 'hard-mode';
+    const buttonId = 
+        difficulty === 'easy' ? 'easy-mode' : 
+        difficulty === 'hard' ? 'hard-mode' : 'oni-mode';
     document.getElementById(buttonId).classList.add('active');
     
     // すべての統計情報をリセット
@@ -106,15 +130,21 @@ function setDifficulty(difficulty) {
  * 一巡すると達成感もありますね！
  */
 function generateQuestion() {
+    // タイマーをリセット・停止
+    stopTimer();
+    
     if (gameState.isWaitingForNext) return;
     
     // 前の問題の回答表示をクリア
     document.getElementById('options-container').classList.remove('show-answer');
     
-    // フィードバックをクリア
+    // フィードバックとタイマーをクリア
     const feedback = document.getElementById('feedback');
     feedback.className = 'hidden';
     feedback.innerHTML = '';
+    
+    // すでに表示されていたタイマーを非表示
+    document.getElementById('timer-container').classList.add('hidden');
     
     // シャッフルされたリストから現在の位置のタレントを選択
     const correctIndex = gameState.shuffledTalents[gameState.currentIndex];
@@ -183,6 +213,156 @@ function generateQuestion() {
     
     // 問題を表示
     displayQuestion();
+    
+    // 難易度が「鬼」の場合、タイマーを開始
+    if (gameState.difficulty === 'oni') {
+        startTimer();
+    }
+}
+
+/**
+ * タイマーの開始
+ * 
+ * 時間制限付きのゲームは緊張感がありますね！
+ * クロナリシューターとして3秒で判断するのは
+ * 本当に難しいですが、練習すれば上達します！
+ */
+function startTimer() {
+    const timerContainer = document.getElementById('timer-container');
+    const timerBar = document.getElementById('timer-bar');
+    const timerText = document.getElementById('timer-text');
+    
+    // フィードバックを確実に非表示に
+    document.getElementById('feedback').classList.add('hidden');
+    
+    // タイマーをリセット
+    gameState.timeLeft = 3000; // 3秒
+    timerBar.style.width = '100%';
+    timerText.textContent = '3';
+    timerContainer.classList.remove('hidden');
+    
+    gameState.isTimerActive = true;
+    
+    // タイマーを開始
+    const startTime = Date.now();
+    gameState.timer = setInterval(() => {
+        const elapsedTime = Date.now() - startTime;
+        gameState.timeLeft = Math.max(0, 3000 - elapsedTime);
+        
+        // バーとテキストの更新
+        const percentage = (gameState.timeLeft / 3000) * 100;
+        timerBar.style.width = `${percentage}%`;
+        timerText.textContent = Math.ceil(gameState.timeLeft / 1000);
+        
+        // 時間切れ
+        if (gameState.timeLeft <= 0) {
+            timeUp();
+        }
+    }, 100);
+}
+
+/**
+ * タイマーの停止
+ */
+function stopTimer() {
+    if (gameState.timer) {
+        clearInterval(gameState.timer);
+        gameState.timer = null;
+    }
+    gameState.isTimerActive = false;
+    document.getElementById('timer-container').classList.add('hidden');
+}
+
+/**
+ * 時間切れ処理
+ * 
+ * 神童めしあさんも認めるレベルの難易度！
+ * 時間内に答えられなかったら、次は頑張りましょう！
+ */
+function timeUp() {
+    stopTimer();
+
+    if (gameState.isWaitingForNext) return;
+    gameState.isWaitingForNext = true;
+
+    const options = document.querySelectorAll('.option');
+    const correctName = gameState.currentQuestion.correctTalent.name;
+
+    // 全選択肢を処理する
+    options.forEach(opt => {
+        const optName = opt.dataset.name;
+        
+        if (optName === correctName) {
+            // 正解の選択肢を表示
+            opt.classList.add('correct', 'correct-highlight');
+            opt.classList.add('correct-animation', 'animated-feedback');
+            
+            // 画像のみ表示状態にする
+            const bgImage = opt.querySelector('.bg-image');
+            if (bgImage) {
+                bgImage.style.visibility = 'visible';
+                // 名前選択モードの場合は完全に不透明に
+                if (gameState.mode === 'name-select') {
+                    bgImage.style.opacity = '1';
+                }
+            }
+        } else {
+            // 不正解の選択肢を表示
+            opt.classList.add('incorrect', 'time-up-animation');
+            opt.classList.add('incorrect-animation', 'animated-feedback');
+            
+            // 名前選択モードの場合は不正解選択肢も画像を表示
+            if (gameState.mode === 'name-select') {
+                const bgImage = opt.querySelector('.bg-image');
+                if (bgImage) {
+                    bgImage.style.visibility = 'visible';
+                    bgImage.style.opacity = '1';
+                }
+            }
+        }
+        
+        // タレント名を表示
+        const talentName = opt.querySelector('.talent-name');
+        if (talentName) {
+            talentName.style.visibility = 'visible';
+            talentName.style.opacity = '1';
+        }
+        
+        // 名前選択モードの場合、回答後に背景画像を表示する
+        if (gameState.mode === 'name-select') {
+            opt.classList.add('answered');
+            
+            // カナと寮名を非表示にする
+            const kanaElement = opt.querySelector('.talent-kana');
+            const dormitoryElement = opt.querySelector('.talent-dormitory');
+            if (kanaElement) kanaElement.style.display = 'none';
+            if (dormitoryElement) dormitoryElement.style.display = 'none';
+        }
+    });
+
+    // オーバーレイを表示するためのクラスを追加
+    document.getElementById('options-container').classList.add('show-answer');
+
+    // 時間切れメッセージを表示（不正解表示のスタイルに合わせる）
+    const feedback = document.getElementById('feedback');
+    feedback.textContent = "時間切れ！";
+    feedback.className = 'incorrect feedback-animation';
+    feedback.classList.remove('hidden');
+
+    // 統計を更新（不正解として扱う）
+    gameState.incorrectAnswers++;
+    gameState.streakCount = 0;
+    updateAccuracy();
+
+    // 次の問題へのタイマーをセット
+    setTimeout(() => {
+        options.forEach(opt => {
+            opt.classList.remove('correct-animation', 'incorrect-animation', 'animated-feedback', 'time-up-animation');
+        });
+
+        gameState.isWaitingForNext = false;
+        generateQuestion();
+    }, 3000);
 }
 
 /**
@@ -192,6 +372,9 @@ function generateQuestion() {
  * 厳密かつ公平な正誤判定を行います。
  */
 function checkAnswer(event) {
+    // タイマーを停止
+    stopTimer();
+    
     if (gameState.isWaitingForNext) return;
     
     const selectedOption = event.currentTarget;

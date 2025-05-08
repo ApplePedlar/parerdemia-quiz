@@ -300,6 +300,24 @@
     .option, .game-container > div {
         margin-bottom: 8px;
     }
+
+    /* タイマーの調整 */
+    #timer-container {
+        width: 150px;
+        height: 25px;
+        margin: 0 auto;
+    }
+    
+    /* フィードバックコンテナの調整 */
+    #feedback-container {
+        min-height: 40px;
+        margin: 15px 0;
+    }
+
+    #feedback {
+        padding: 10px 15px;
+        font-size: 16px;
+    }
 }
 
 /* さらに小さい画面のための追加調整 */
@@ -393,5 +411,20 @@
     .game-title-decoration {
         gap: 6px;
         margin-top: 8px;
+    }
+
+    /* さらに小さい画面でのタイマー調整 */
+    #timer-container {
+        width: 120px;
+        height: 20px;
+    }
+    
+    #timer-text {
+        font-size: 0.8rem;
+    }
+    
+    #feedback-container {
+        min-height: 35px;
+        margin: 10px 0;
     }
 }

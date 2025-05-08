@@ -347,6 +347,46 @@
     border-left: 5px solid #f44336;
 }
 
+/* フィードバックコンテナ - タイマーと結果表示を両方含む */
+#feedback-container {
+    position: relative;
+    min-height: 50px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+/* タイマー表示 */
+#timer-container {
+    position: relative; 
+    width: 200px;
+    height: 30px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    margin: 0 auto; /* 中央揃え */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10; /* 正解/不正解表示よりも上に */
+}
+
+/* 正解・不正解フィードバック */
+#feedback {
+    background: linear-gradient(135deg, #ebf1f5, #dce5ec); /* 薄いブルーグラデーション */
+    color: #5d7a8e; /* テキスト色も馴染むように */
+    font-weight: bold;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-left: 5px solid #829aad; /* 左ボーダーも統一 */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 5; /* タイマーより下のレイヤー */
+}
+
 /* 正解表示用スタイル */
 .correct-answer {
     margin-top: 15px;
@@ -362,4 +402,52 @@
     border: 1px solid #ddd;
     border-radius: 4px;
     margin-top: 8px;
+}
+
+/* タイマー表示 */
+#timer-container {
+    position: relative; /* fixed から relative に変更 */
+    width: 200px;      /* 幅は維持 */
+    height: 30px;      /* 高さは維持 */
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    margin: 10px auto 15px; /* 上下左右のマージンを設定 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#timer-container.hidden {
+    display: none;
+}
+
+#timer-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #ff7373;
+    transition: width 0.1s linear;
+}
+
+#timer-text {
+    position: relative;
+    font-weight: bold;
+    color: #333;
+    z-index: 1;
+}
+
+/* 時間切れメッセージ */
+.time-up-message {
+    color: #ff0000;
+    font-weight: bold;
+    animation: timeUpPulse 0.5s infinite alternate;
+}
+
+@keyframes timeUpPulse {
+    from { opacity: 0.7; }
+    to { opacity: 1; }
 }

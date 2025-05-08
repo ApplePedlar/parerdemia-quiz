@@ -92,6 +92,7 @@
                         <h3>難易度</h3>
                         <button id="easy-mode" class="difficulty-btn active">低</button>
                         <button id="hard-mode" class="difficulty-btn">高</button>
+                        <button id="oni-mode" class="difficulty-btn">鬼</button>
                     </div>
                 </div>
             </div>
@@ -162,7 +163,14 @@
             
             <div id="options-container"></div>
             
-            <div id="feedback" class="hidden"></div>
+            <!-- タイマーと正解/不正解表示を同じ場所に配置 -->
+            <div id="feedback-container">
+                <div id="timer-container" class="hidden">
+                    <div id="timer-bar"></div>
+                    <div id="timer-text">3</div>
+                </div>
+                <div id="feedback" class="hidden"></div>
+            </div>
         </div>
     </div>
     
