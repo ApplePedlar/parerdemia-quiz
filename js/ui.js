@@ -38,6 +38,7 @@ function setupAccordion() {
             if (settingsAccordion.classList.contains('accordion-open')) {
                 // 開く
                 content.style.maxHeight = content.scrollHeight + 'px';
+                // 以前のフィードバッククリア関連コードを削除
             } else {
                 // 閉じる
                 content.style.maxHeight = '0';
@@ -65,7 +66,8 @@ function setupAccordion() {
  * 伝わるよう、表示方法にもこだわっています。
  */
 function displayQuestion() {
-    if (gameState.isWaitingForNext) return;
+    // すでに待機中なら何もしない（ただし設定変更時は例外）
+    if (gameState.isWaitingForNext && gameState.feedbackTimer) return;
     
     // 前の問題の回答表示をクリア
     document.getElementById('options-container').classList.remove('show-answer');

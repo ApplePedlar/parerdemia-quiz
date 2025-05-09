@@ -24,6 +24,12 @@
     /* 設定パネルは常に閉じた状態で開始 */
     .accordion-content {
         max-height: 0;
+        box-sizing: border-box;
+        padding: 0 8px; /* 追加：常にサイドパディングを持たせる */
+    }
+    
+    .accordion-open .accordion-content {
+        padding: 8px; /* 追加：開いた時のパディングを設定 */
     }
     
     /* ゲーム設定ボタンの高さを小さく調整 */
@@ -31,6 +37,8 @@
         padding: 8px 15px;
         font-size: 15px;
         line-height: 1.2;
+        position: relative; /* 追加：相対位置指定 */
+        z-index: 100; /* 追加：高いz-indexで設定ボタンを常に操作可能に */
     }
     
     /* コントロールを縦並びに */

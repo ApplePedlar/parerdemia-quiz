@@ -24,8 +24,23 @@ window.gameState = {
     isWaitingForNext: false,
     timer: null,        // タイマーID
     timeLeft: 3000,     // 残り時間（ミリ秒）
-    isTimerActive: false
+    isTimerActive: false,
+    feedbackTimer: null  // フィードバックのタイマーID
 };
+
+/**
+ * フィードバックタイマーのクリア
+ * 
+ * 設定変更時に既存のフィードバックタイマーをキャンセルするための関数
+ */
+function clearFeedbackTimer() {
+    if (gameState.feedbackTimer) {
+        clearTimeout(gameState.feedbackTimer);
+        gameState.feedbackTimer = null;
+    }
+    // 待機状態を必ずリセット - 設定パネルとの競合を防ぐ
+    gameState.isWaitingForNext = false;
+}
 
 /**
  * ゲームモードの設定
@@ -35,7 +50,14 @@ window.gameState = {
  * 一からタレントと出会う旅が始まります。
  */
 function setGameMode(mode) {
-    if (gameState.isWaitingForNext) return;
+    // フィードバックタイマーをクリア
+    clearFeedbackTimer();
+    
+    // 待機状態をリセット
+    gameState.isWaitingForNext = false;
+    
+    // タイマーをリセット
+    stopTimer();
     
     gameState.mode = mode;
     
@@ -70,7 +92,14 @@ function setGameMode(mode) {
  * タレントたちとの出会い方も変わります。
  */
 function setOptionsCount(count) {
-    if (gameState.isWaitingForNext) return;
+    // フィードバックタイマーをクリア
+    clearFeedbackTimer();
+    
+    // 待機状態をリセット
+    gameState.isWaitingForNext = false;
+    
+    // タイマーをリセット
+    stopTimer();
     
     gameState.optionsCount = count;
     
@@ -100,7 +129,14 @@ function setOptionsCount(count) {
  * 設定変更でタレントリストも再シャッフルされます。
  */
 function setDifficulty(difficulty) {
-    if (gameState.isWaitingForNext) return;
+    // フィードバックタイマーをクリア
+    clearFeedbackTimer();
+    
+    // 待機状態をリセット
+    gameState.isWaitingForNext = false;
+    
+    // タイマーをリセット
+    stopTimer();
     
     gameState.difficulty = difficulty;
     
@@ -355,7 +391,7 @@ function timeUp() {
     updateAccuracy();
 
     // 次の問題へのタイマーをセット
-    setTimeout(() => {
+    gameState.feedbackTimer = setTimeout(() => {
         options.forEach(opt => {
             opt.classList.remove('correct-animation', 'incorrect-animation', 'animated-feedback', 'time-up-animation');
         });
@@ -467,7 +503,7 @@ function checkAnswer(event) {
     
     // 次の問題への移行タイマーをセット
     gameState.isWaitingForNext = true;
-    setTimeout(() => {
+    gameState.feedbackTimer = setTimeout(() => {
         // アニメーションクラスを削除
         options.forEach(opt => {
             opt.classList.remove('correct-animation', 'incorrect-animation', 'animated-feedback');

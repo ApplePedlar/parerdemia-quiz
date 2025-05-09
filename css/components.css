@@ -17,6 +17,8 @@
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     overflow: hidden;
+    position: relative; /* 追加：相対位置指定 */
+    z-index: 100; /* 追加：フィードバック表示より上に表示されるようにする */
 }
 
 .accordion-header {
@@ -53,10 +55,13 @@
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease;
+    padding: 0 8px; /* 常にパディングを持たせる */
+    box-sizing: border-box;
 }
 
 .accordion-open .accordion-content {
     max-height: 500px; /* 十分な高さを確保 */
+    padding: 8px; /* パディングを調整 */
 }
 
 /* ボタンスタイル */
@@ -222,6 +227,8 @@ button.active {
     border-radius: 4px;
     font-size: 18px;
     font-weight: bold;
+    position: relative; /* 位置関係を明確に */
+    z-index: 50; /* アコーディオンより下、但し他の要素より上に */
 }
 
 /* 
