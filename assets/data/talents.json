@@ -1,19 +1,4 @@
-/**
- * パレデミア学園 寮生データ
- * 
- * 60名のタレントさん達のデータをJSONP形式で管理しています。
- * 各寮15名ずつに分かれた構成が素晴らしいですね。
- * 
- * ファイル命名規則は face-25 と寮記号(CO/ME/WA/WH)で
- * 整理しています。シンプルで分かりやすい管理方法です。
- * webp形式の採用でロード時間も短縮されています。
- * 
- * データを整理しながら各タレントさんの個性や魅力に
- * 触れることができ、とても楽しい作業でした。
- * もし「ピコ寮」ができたら、記号は「PI」になるのかな？
- * そんな想像も膨らみます。
- */
-loadTalentsCallback([
+[
     { "name": "朧月 ひかる", "kana": "オボロヅキ ヒカル", "dormitory": "クゥ", "image": "assets/images/face-25CO001.webp", "hairColor": "darkblue" },
     { "name": "シグマ・イングラム", "kana": "シグマ・イングラム", "dormitory": "クゥ", "image": "assets/images/face-25CO002.webp", "hairColor": "silver" },
     { "name": "愛乃宮 ゆめ", "kana": "エノミヤ ユメ", "dormitory": "クゥ", "image": "assets/images/face-25CO003.webp", "hairColor": "pink" },
@@ -74,4 +59,4 @@ loadTalentsCallback([
     { "name": "鶴乃院 光", "kana": "ツルノイン ヒカル", "dormitory": "ウィニー", "image": "assets/images/face-25WH013.webp", "hairColor": "pink" },
     { "name": "七扇 ヲトメ", "kana": "ナナオウギ ヲトメ", "dormitory": "ウィニー", "image": "assets/images/face-25WH014.webp", "hairColor": "red" },
     { "name": "七音 うら", "kana": "ナナオト ウラ", "dormitory": "ウィニー", "image": "assets/images/face-25WH015.webp", "hairColor": "red" }
-]);
+]

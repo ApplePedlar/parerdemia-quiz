@@ -2,7 +2,7 @@
  * パレデミア学園 寮生記憶ゲーム - データ処理
  * 
  * タレントデータの読み込みと管理を行うファイルです。
- * JSONP形式でデータを扱うことで、安全に外部データを
+ * JSON形式でデータを扱うことで、安全に外部データを
  * 取り込むようにしています。天辻ゆらぐさんのデータ整理能力に
  * インスピレーションを受けました。
  */
@@ -10,25 +10,35 @@
 /**
  * タレントデータの読み込み
  * 
- * JSONP形式でデータを管理することで、より安全で効率的に
+ * Fetch APIを使用してJSON形式でデータを管理することで、より安全で効率的に
  * タレント情報を取得できます。天辻ゆらぐさんのように
  * 流れるような動きでデータを処理したいと思います。
  */
 function loadTalents() {
-    // JSONPファイルを読み込むためのスクリプト要素を作成
-    const script = document.createElement('script');
-    script.src = 'assets/data/talents.jsonp';
-    script.onerror = () => {
-        console.error('タレントデータの読み込みに失敗しました。');
-    };
-    document.head.appendChild(script);
-}
-
-// JSONPコールバック関数
-function loadTalentsCallback(data) {
-    gameState.talents = data;
-    // タレントデータをシャッフル
-    shuffleTalents();
-    // データ読み込み完了後に問題を生成
-    generateQuestion();
+    // Fetch APIを使用してJSONファイルを非同期で読み込む
+    fetch('assets/data/talents.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('タレントデータの読み込みに失敗しました。');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // データを取得できたらゲーム状態に設定
+            gameState.talents = data;
+            // タレントデータをシャッフル
+            shuffleTalents();
+            // データ読み込み完了後に問題を生成
+            generateQuestion();
+        })
+        .catch(error => {
+            console.error('タレントデータの読み込みエラー:', error);
+            // エラーメッセージをUIに表示
+            const feedbackElement = document.getElementById('feedback');
+            if (feedbackElement) {
+                feedbackElement.textContent = 'データの読み込みに失敗しました。ページを再読み込みしてください。';
+                feedbackElement.className = 'error';
+                feedbackElement.classList.remove('hidden');
+            }
+        });
 }

@@ -76,7 +76,7 @@ parerdemia-quiz/
 ├── script.js         # ゲームロジック
 ├── assets/
 │   ├── data/
-│   │   └── talents.jsonp  # タレントデータ
+│   │   └── talents.json  # タレントデータ
 │   └── images/
 │       └── face-*.webp    # タレント画像
 └── .github/
