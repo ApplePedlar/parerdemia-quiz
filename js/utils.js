@@ -57,7 +57,7 @@ function preloadImages(urls) {
  * 問題から画像URLを抽出する関数
  * 
  * 問題オブジェクトからタレントの画像URLを抽出して配列で返します。
- * 画像選択モード、名前選択モードの両方に対応しています。
+ * 顔当てモード、名前当てモードの両方に対応しています。
  * 
  * @param {Object} question - 問題オブジェクト
  * @return {Array} - 画像URLの配列

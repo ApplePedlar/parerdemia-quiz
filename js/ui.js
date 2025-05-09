@@ -102,7 +102,7 @@ function updateSettingsDisplay() {
     const currentOptions = document.getElementById('current-options');
     
     if (currentMode) {
-        currentMode.textContent = gameState.mode === 'image-select' ? '画像選択' : '名前選択';
+        currentMode.textContent = gameState.mode === 'image-select' ? '顔当て' : '名前当て';
     }
     
     if (currentDifficulty) {
