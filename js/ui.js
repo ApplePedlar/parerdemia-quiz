@@ -2,59 +2,118 @@
  * パレデミア学園 寮生記憶ゲーム - UI処理
  * 
  * ユーザーインターフェースに関する機能を集めたファイルです。
- * アコーディオン機能や問題表示など、ユーザー体験を向上させる
+ * モーダル機能や問題表示など、ユーザー体験を向上させる
  * 要素を実装しています。犬丸なでこさんの親しみやすさを
  * 意識したデザインにしました。
  */
 
 /**
- * アコーディオン機能のセットアップ
+ * 設定モーダル機能のセットアップ
  * 
  * 灯野ぺけ。さんのシンプルで分かりやすいUIが魅力的です。
- * このアコーディオン機能も、彼女のように明快さを意識しました。
+ * このモーダル機能は、彼女のように明快さを意識しました。
  * スマホでも快適に操作できるよう工夫しています。
  */
-function setupAccordion() {
+function setupSettingsModal() {
     const settingsToggle = document.getElementById('settings-toggle');
-    const settingsAccordion = document.querySelector('.settings-accordion');
+    const settingsButton = document.getElementById('settings-button'); // 別のIDもサポート
+    const settingsModal = document.getElementById('settings-modal');
+    const closeModal = document.getElementById('close-modal');
+    const closeModalButton = document.getElementById('close-modal-button');
+    const settingsStatusBar = document.querySelector('.settings-status-bar'); // 追加: 設定ステータスバーの取得
     
-    if (settingsToggle && settingsAccordion) {
-        // モバイルかどうかで初期状態を変える
-        const isMobile = window.innerWidth <= 768;
-        if (!isMobile) {
-            // PCの場合は最初から開いた状態にする
-            settingsAccordion.classList.add('accordion-open');
-            const content = document.querySelector('.accordion-content');
-            if (content) {
-                content.style.maxHeight = content.scrollHeight + 'px';
+    // モーダルが見つからない場合は終了
+    if (!settingsModal) {
+        console.error('Settings modal not found');
+        return;
+    }
+    
+    // 設定ステータスバー全体のクリックイベントを追加
+    if (settingsStatusBar) {
+        settingsStatusBar.addEventListener('click', (e) => {
+            // すでに処理されたイベントの場合は何もしない
+            if (e.target === settingsToggle || (settingsToggle && settingsToggle.contains(e.target))) {
+                return;
             }
-        }
-        
-        // クリックイベントを追加
-        settingsToggle.addEventListener('click', () => {
-            const content = document.querySelector('.accordion-content');
-            settingsAccordion.classList.toggle('accordion-open');
-            
-            if (settingsAccordion.classList.contains('accordion-open')) {
-                // 開く
-                content.style.maxHeight = content.scrollHeight + 'px';
-                // 以前のフィードバッククリア関連コードを削除
-            } else {
-                // 閉じる
-                content.style.maxHeight = '0';
-            }
+            console.log('Settings status bar clicked'); // デバッグ用
+            settingsModal.classList.add('show');
+            settingsModal.classList.add('open');
+            updateSettingsDisplay();
         });
     }
     
-    // ウィンドウサイズが変更されたときのリサイズ対応
-    window.addEventListener('resize', () => {
-        if (settingsAccordion && settingsAccordion.classList.contains('accordion-open')) {
-            const content = document.querySelector('.accordion-content');
-            if (content) {
-                content.style.maxHeight = content.scrollHeight + 'px';
-            }
+    // settings-toggleボタンのイベントリスナー
+    if (settingsToggle) {
+        settingsToggle.addEventListener('click', (e) => {
+            e.stopPropagation(); // イベント伝播を停止
+            console.log('Settings toggle clicked'); // デバッグ用
+            settingsModal.classList.add('show');
+            settingsModal.classList.add('open');
+            updateSettingsDisplay();
+        });
+    }
+    
+    // settings-buttonボタンのイベントリスナー（別のID用）
+    if (settingsButton) {
+        settingsButton.addEventListener('click', (e) => {
+            e.stopPropagation(); // イベント伝播を停止
+            settingsModal.classList.add('show');
+            settingsModal.classList.add('open');
+            updateSettingsDisplay();
+        });
+    }
+    
+    // 閉じるボタンのイベントリスナー
+    if (closeModal) {
+        closeModal.addEventListener('click', (e) => {
+            e.stopPropagation(); // イベント伝播を停止
+            settingsModal.classList.remove('show');
+            settingsModal.classList.remove('open');
+        });
+    }
+    
+    // 別の閉じるボタンのイベントリスナー
+    if (closeModalButton) {
+        closeModalButton.addEventListener('click', (e) => {
+            e.stopPropagation(); // イベント伝播を停止
+            settingsModal.classList.remove('show');
+            settingsModal.classList.remove('open');
+        });
+    }
+    
+    // モーダルの外側をクリックしても閉じる
+    settingsModal.addEventListener('click', (event) => {
+        if (event.target === settingsModal) {
+            settingsModal.classList.remove('show');
+            settingsModal.classList.remove('open');
         }
     });
+    
+    // 初期表示時に現在の設定をステータスバーに反映
+    updateSettingsDisplay();
+}
+
+/**
+ * 現在の設定をステータスバーに表示
+ */
+function updateSettingsDisplay() {
+    const currentMode = document.getElementById('current-mode');
+    const currentDifficulty = document.getElementById('current-difficulty');
+    const currentOptions = document.getElementById('current-options');
+    
+    if (currentMode) {
+        currentMode.textContent = gameState.mode === 'image-select' ? '画像選択' : '名前選択';
+    }
+    
+    if (currentDifficulty) {
+        currentDifficulty.textContent = 
+            gameState.difficulty === 'easy' ? '低' : 
+            gameState.difficulty === 'hard' ? '高' : '鬼';
+    }
+    
+    if (currentOptions) {
+        currentOptions.textContent = gameState.optionsCount;
+    }
 }
 
 /**
@@ -157,7 +216,8 @@ function displayQuestion() {
             const overlayName = document.createElement('div');
             overlayName.className = 'talent-name';
             overlayName.textContent = talent.name;
-            overlay.appendChild(overlayName);
+            
+            overlay.appendChild(overlayName); // 修正：overlayNameを追加する
             
             option.appendChild(overlay);
             

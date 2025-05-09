@@ -12,7 +12,8 @@
 
 .controls {
     display: flex;
-    justify-content: space-around;
+    flex-direction: column; /* 縦並びに変更 */
+    gap: 20px; /* 各セクション間の間隔 */
     margin-bottom: 0;
     background-color: #fff;
     padding: 15px;
@@ -20,8 +21,14 @@
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.mode-selector, .options-selector {
+.mode-selector, .options-selector, .difficulty-selector {
     text-align: center;
+    display: flex; /* 選択肢を横並びに */
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
 }
 
 .stats {
@@ -89,6 +96,26 @@
         height: auto;
         max-width: 180px; /* 画像サイズを少し小さく */
         max-height: 180px;
+    }
+    
+    /* モーダル内ボタングループのPC表示調整 */
+    .button-group {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    /* PCでの設定ボタン配置の最適化 */
+    .controls button {
+        flex: 0 1 auto;
+        min-width: 100px;
+    }
+    
+    /* ゲームモード選択ボタンの特別スタイル - PC表示用 */
+    .mode-selector button {
+        min-width: 180px; /* モードボタン用に十分な幅を確保 */
+        max-width: 200px; /* 最大幅も広げる */
     }
 }
 

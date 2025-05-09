@@ -10,78 +10,182 @@
  * 華やかさが伝わると嬉しいです。
  */
 
-/* アコーディオン設定パネル */
-.settings-accordion {
-    margin-bottom: 30px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    overflow: hidden;
-    position: relative; /* 追加：相対位置指定 */
-    z-index: 100; /* 追加：フィードバック表示より上に表示されるようにする */
-}
-
-.accordion-header {
-    padding: 0;
-}
-
-#settings-toggle {
-    width: 100%;
-    padding: 12px 15px;
-    background-color: #97aec0; /* さらに薄い柔らかいブルーグレーに変更 */
-    color: white;
-    text-align: left;
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
+/* 設定ステータスバー */
+.settings-status-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: #f5f7fa;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    position: relative;
+    z-index: 100;
+    flex-wrap: nowrap;
+    width: 100%; /* 追加: 幅を明示的に100%に */
+    box-sizing: border-box; /* 追加: パディングを含むボックスサイジング */
+    cursor: pointer; /* 追加: クリック可能であることを示す */
 }
 
-#settings-toggle:hover {
-    background-color: #8aa2b5; /* ホバー時も薄めの色に */
+.current-settings {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    flex: 1 1 auto; /* 変更: grow 1, shrink 1で適切に伸縮 */
+    margin-right: 10px;
 }
 
-.accordion-icon {
-    transition: transform 0.3s ease;
+.setting-item {
+    display: inline-block;
+    font-size: 0.95rem;
+    color: #666;
+    white-space: nowrap; /* 追加: テキストを折り返さないように */
 }
 
-.accordion-open .accordion-icon {
-    transform: rotate(180deg);
+.setting-item span {
+    font-weight: bold;
+    color: #97aec0;
 }
 
-.accordion-content {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-    padding: 0 8px; /* 常にパディングを持たせる */
-    box-sizing: border-box;
+.settings-gear {
+    background: none;
+    border: none;
+    color: #97aec0;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border-radius: 50%;
+    margin-left: 0; /* 変更: autoからゼロに */
+    flex: 0 0 36px; /* 変更: grow 0, shrink 0, basis 36pxで固定サイズ */
+    max-width: 36px; /* 追加: 最大幅も制限 */
 }
 
-.accordion-open .accordion-content {
-    max-height: 500px; /* 十分な高さを確保 */
-    padding: 8px; /* パディングを調整 */
+.settings-gear:hover {
+    background-color: rgba(151, 174, 192, 0.1);
+    transform: rotate(15deg);
+}
+
+.settings-gear svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
+
+/* モーダルスタイル */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+    animation: fadeIn 0.3s;
+}
+
+.modal.show,
+.modal.open {
+    display: block;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    max-width: 500px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    animation: slideIn 0.3s;
+    position: relative; /* 追加: 相対位置指定 */
+    max-height: 90vh; /* 追加: 画面高さの90%まで */
+    overflow-y: auto; /* 追加: 必要に応じてスクロール可能に */
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: #5d7a8e;
+    flex: 1 1 auto; /* タイトルを伸縮可能に */
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    font-weight: bold;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.3s, background 0.3s;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    margin-left: 10px; /* タイトルとの間隔 */
+    flex: 0 0 32px; /* flex-grow:0, flex-shrink:0, flex-basis:32px */
+    border-radius: 50%; /* 丸くして視認性と操作性を向上 */
+}
+
+.close-button:hover {
+    color: #333;
+    background-color: rgba(0, 0, 0, 0.05); /* ホバー時に軽い背景色を表示 */
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+/* 各設定セクションのスタイル調整 */
+.mode-selector h3, .options-selector h3, .difficulty-selector h3 {
+    width: 100%;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
 
 /* ボタンスタイル */
 button {
     padding: 8px 15px;
-    margin: 0 5px;
+    margin: 0;
     border: none;
     border-radius: 4px;
     background-color: #e0e0e0;
     cursor: pointer;
     transition: all 0.3s;
+    flex: 1;
+    min-width: 70px;
+    max-width: 120px;
 }
 
-button:hover {
-    background-color: #d0d0d0;
-}
-
-button.active {
-    background-color: #a3b8c9; /* さらに薄く柔らかい色に変更 */
-    color: white;
+/* ゲームモード選択ボタン専用スタイル */
+.mode-btn {
+    white-space: nowrap; /* テキストを折り返さない */
+    padding: 8px 20px; /* 左右のパディングを増やす */
 }
 
 /* 難易度ボタン */
@@ -106,6 +210,14 @@ button.active {
 .difficulty-btn.active {
     background-color: #a3b8c9; /* 統一感のある薄い色に */
     color: white;
+}
+
+/* モードと選択肢ボタンのアクティブ状態 */
+.mode-btn.active,
+.option-btn.active {
+    background-color: #a3b8c9; /* 難易度ボタンと統一 */
+    color: white;
+    font-weight: bold;
 }
 
 /* 難易度「高」のボタンはちょっと特別感を出す */

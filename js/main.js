@@ -16,25 +16,61 @@ function initialize() {
     // gameStateはgame.jsで定義されたグローバルオブジェクトを使用
     loadTalents();
     setupEventListeners();
-    setupAccordion();
+    setupSettingsModal(); // ui.jsで定義された関数を呼び出し
     
     // HTMLのactiveクラスに合わせてゲーム状態を確認
+    // ゲームモードの確認
+    let foundActiveMode = false;
+    document.querySelectorAll('.mode-btn').forEach(btn => {
+        if (btn.classList.contains('active')) {
+            foundActiveMode = true;
+            if (btn.id === 'image-select-mode') {
+                gameState.mode = 'image-select';
+            } else if (btn.id === 'name-select-mode') {
+                gameState.mode = 'name-select';
+            }
+        }
+    });
+    
+    // アクティブなモードがない場合はデフォルト設定を適用
+    if (!foundActiveMode) {
+        document.getElementById('image-select-mode').classList.add('active');
+        gameState.mode = 'image-select';
+    }
+    
+    // 選択肢数の確認
+    let foundActiveOption = false;
     document.querySelectorAll('.option-btn').forEach(btn => {
         if (btn.classList.contains('active')) {
+            foundActiveOption = true;
             const count = parseInt(btn.id.split('-')[1]);
             gameState.optionsCount = count;
         }
     });
+    
+    // アクティブな選択肢設定がない場合はデフォルト設定を適用
+    if (!foundActiveOption) {
+        document.getElementById('option-4').classList.add('active');
+        gameState.optionsCount = 4;
+    }
 
     // 難易度設定の確認
+    let foundActiveDifficulty = false;
     document.querySelectorAll('.difficulty-btn').forEach(btn => {
         if (btn.classList.contains('active')) {
+            foundActiveDifficulty = true;
             const difficulty = btn.id.split('-')[0];
             if (difficulty === 'easy' || difficulty === 'hard' || difficulty === 'oni') {
                 gameState.difficulty = difficulty;
             }
         }
     });
+    
+    // アクティブな難易度設定がない場合はデフォルト設定を適用
+    if (!foundActiveDifficulty) {
+        document.getElementById('easy-mode').classList.add('active');
+        gameState.difficulty = 'easy';
+    }
 }
 
 // イベントリスナーの設定

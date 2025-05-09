@@ -32,13 +32,134 @@
         padding: 8px; /* 追加：開いた時のパディングを設定 */
     }
     
-    /* ゲーム設定ボタンの高さを小さく調整 */
+    /* ゲーム設定ボタンのサイズを適切に調整 */
     #settings-toggle {
-        padding: 8px 15px;
-        font-size: 15px;
-        line-height: 1.2;
-        position: relative; /* 追加：相対位置指定 */
-        z-index: 100; /* 追加：高いz-indexで設定ボタンを常に操作可能に */
+        width: 32px; /* 40pxから32pxに縮小 */
+        height: 32px; /* 40pxから32pxに縮小 */
+        padding: 0;
+        font-size: 14px;
+        position: relative;
+        z-index: 100;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    /* 歯車アイコンのSVGが確実にクリック可能になるよう調整 */
+    #settings-toggle svg {
+        pointer-events: none;
+        width: 16px; /* 20pxから16pxに縮小 */
+        height: 16px; /* 20pxから16pxに縮小 */
+    }
+    
+    /* 設定ステータスバーのモバイル調整 - 高さを小さく変更 */
+    .settings-status-bar {
+        padding: 4px 10px; /* 上下パディングを8pxから4pxに減らして高さを小さく */
+        margin-bottom: 10px; /* 15pxから10pxに変更 */
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 3px; /* 5pxから3pxに変更 */
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        box-sizing: border-box;
+        min-height: 35px; /* 最小高さを追加 */
+    }
+    
+    .current-settings {
+        gap: 4px; /* 6pxから4pxに減らす */
+        font-size: 0.75rem; /* 0.8remから0.75remに縮小 */
+        margin-right: 5px;
+        display: flex;
+        flex: 1 1 auto;
+        flex-wrap: wrap;
+        overflow: hidden;
+        max-width: calc(100% - 35px); /* 歯車ボタンの新しいサイズに合わせる */
+    }
+    
+    .setting-item {
+        font-size: 0.75rem; /* 0.8remから0.75remに */
+        white-space: nowrap;
+        margin-right: 4px; /* 5pxから4pxに減らす */
+        padding-right: 4px; /* 5pxから4pxに減らす */
+        border-right: 1px solid #eee;
+    }
+    
+    .setting-item:last-child {
+        border-right: none;
+    }
+    
+    /* 歯車ボタンを小さく */
+    .settings-gear {
+        width: 32px; /* 40pxから32pxに縮小 */
+        height: 32px; /* 40pxから32pxに縮小 */
+        min-width: 32px;
+        max-width: 32px;
+        padding: 0;
+        margin-left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 32px;
+        align-self: center;
+    }
+    
+    .settings-gear svg {
+        width: 16px; /* 20pxから16pxに縮小 */
+        height: 16px; /* 20pxから16pxに縮小 */
+    }
+    
+    /* モーダルの調整 - 改善版 */
+    .modal-content {
+        margin: 5% auto;
+        width: 92%;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+    
+    .modal-header {
+        padding: 10px 12px;
+    }
+    
+    .close-button {
+        font-size: 18px;
+        width: 40px; /* モバイルでタッチしやすいように大きく */
+        height: 40px;
+        margin-left: 8px;
+        flex: 0 0 40px; /* width と同じ値で固定 */
+        margin-right: 0; /* ネガティブマージンを削除 */
+    }
+    
+    .modal-body {
+        padding: 15px;
+    }
+    
+    /* ゲーム設定モーダル内のボタン調整 */
+    .modal-body .controls button {
+        padding: 10px 8px;
+        font-size: 14px;
+        flex: 1;
+        margin: 3px;
+        min-width: 80px; /* 0から80pxに変更してタッチしやすく */
+    }
+    
+    /* ボタングループのレイアウト調整 */
+    .button-group {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+    }
+    
+    .modal-body .controls h3 {
+        font-size: 16px;
+        margin: 5px 0;
+    }
+    
+    .mode-selector, .options-selector, .difficulty-selector {
+        margin-bottom: 15px;
     }
     
     /* コントロールを縦並びに */
@@ -47,15 +168,13 @@
         gap: 15px;
     }
     
-    .mode-selector, .options-selector, .difficulty-selector {
-        width: 100%;
-    }
-    
-    /* ボタンのサイズを調整 */
+    /* モバイル表示ではボタンの最大幅を調整 */
     button {
         padding: 10px;
         margin: 3px;
         font-size: 14px;
+        max-width: none;
+        flex: 1;
     }
     
     /* 統計情報をコンパクトに - 横並び2行レイアウトに変更 */
@@ -342,21 +461,95 @@
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
-        gap: 4px;
+        gap: 5px;
     }
     
     button {
         width: auto;
         margin: 3px;
-        padding: 5px 8px;
+        padding: 6px 8px;
         font-size: 13px;
+        min-width: 60px;
     }
     
-    /* ゲーム設定ボタンをさらに小さく */
+    /* さらに小さい画面でも歯車ボタンは適切なサイズを維持 */
     #settings-toggle {
-        padding: 6px 12px;
+        width: 28px; /* さらに小さく */
+        height: 28px;
+        padding: 0;
         font-size: 14px;
-        width: 100%; /* 設定ボタン自体は全幅維持 */
+    }
+    
+    #settings-toggle svg {
+        pointer-events: none;
+        width: 14px; /* さらに小さく */
+        height: 14px; /* さらに小さく */
+    }
+    
+    /* 設定ステータスバーをさらに小さい画面向けに調整 */
+    .settings-status-bar {
+        padding: 3px 6px; /* さらに小さく */
+        min-height: 30px; /* 最小高さをさらに小さく */
+        margin-bottom: 8px;
+    }
+    
+    .current-settings {
+        font-size: 0.7rem; /* さらに小さく */
+        gap: 3px;
+    }
+    
+    .setting-item {
+        font-size: 0.7rem;
+        margin-right: 2px;
+        padding-right: 2px;
+    }
+    
+    /* さらに小さい画面でも歯車ボタンは適切なサイズを維持 */
+    #settings-toggle, .settings-gear {
+        width: 28px; /* さらに小さく */
+        height: 28px;
+        flex: 0 0 28px;
+        min-width: 28px;
+        max-width: 28px;
+    }
+    
+    #settings-toggle svg, .settings-gear svg {
+        width: 14px;
+        height: 14px;
+    }
+    
+    /* モーダル内の余白調整 */
+    .modal-body {
+        padding: 12px 10px;
+    }
+    
+    .modal-header {
+        padding: 8px 10px;
+    }
+    
+    .close-button {
+        width: 36px; /* 小さくするが、タッチしやすいサイズを維持 */
+        height: 36px;
+        flex: 0 0 36px;
+        font-size: 16px;
+    }
+    
+    /* さらに小さい画面での設定ボタン調整 */
+    .modal-body .controls button {
+        padding: 12px 8px; /* 上下パディングを増やしてタッチ領域を拡大 */
+        font-size: 13px;
+        min-width: 70px; /* 最小幅を確保 */
+        flex: 1 1 auto; /* 伸縮性を調整 */
+        height: 44px; /* 高さを固定してタッチしやすく */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* ボタングループのレイアウトをさらに最適化 */
+    .button-group {
+        gap: 6px;
+        margin-bottom: 10px;
     }
     
     /* 画像サイズをさらに縮小 */

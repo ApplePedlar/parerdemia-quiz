@@ -25,7 +25,8 @@ window.gameState = {
     timer: null,        // タイマーID
     timeLeft: 3000,     // 残り時間（ミリ秒）
     isTimerActive: false,
-    feedbackTimer: null  // フィードバックのタイマーID
+    feedbackTimer: null,  // フィードバックのタイマーID
+    initialized: false    // 初期化済みフラグを追加
 };
 
 /**
@@ -75,6 +76,11 @@ function setGameMode(mode) {
         descText.textContent = 'この顔のタレントは誰？';
     }
     
+    // ステータス表示を更新
+    if (typeof updateSettingsDisplay === 'function') {
+        updateSettingsDisplay();
+    }
+    
     // すべての統計情報をリセット
     resetAllStats();
     
@@ -108,6 +114,11 @@ function setOptionsCount(count) {
     
     const buttonId = `option-${count}`;
     document.getElementById(buttonId).classList.add('active');
+    
+    // ステータス表示を更新
+    if (typeof updateSettingsDisplay === 'function') {
+        updateSettingsDisplay();
+    }
     
     // すべての統計情報をリセット
     resetAllStats();
@@ -147,6 +158,11 @@ function setDifficulty(difficulty) {
         difficulty === 'easy' ? 'easy-mode' : 
         difficulty === 'hard' ? 'hard-mode' : 'oni-mode';
     document.getElementById(buttonId).classList.add('active');
+    
+    // ステータス表示を更新
+    if (typeof updateSettingsDisplay === 'function') {
+        updateSettingsDisplay();
+    }
     
     // すべての統計情報をリセット
     resetAllStats();
