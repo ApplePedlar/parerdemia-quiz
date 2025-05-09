@@ -13,7 +13,7 @@
 /* モバイル対応のためのメディアクエリ */
 @media (max-width: 768px) {
     .container {
-        padding: 10px;
+        padding: 0; /* 10pxから0に変更してパディングを削除 */
     }
     
     h1 {
@@ -56,7 +56,7 @@
     /* 設定ステータスバーのモバイル調整 - 高さを小さく変更 */
     .settings-status-bar {
         padding: 4px 10px; /* 上下パディングを8pxから4pxに減らして高さを小さく */
-        margin-bottom: 10px; /* 15pxから10pxに変更 */
+        margin-bottom: 0; /* 10pxから0に変更して完全に削除 */
         display: flex;
         flex-wrap: nowrap;
         gap: 3px; /* 5pxから3pxに変更 */
@@ -177,19 +177,27 @@
         flex: 1;
     }
     
-    /* 統計情報をコンパクトに - 横並び2行レイアウトに変更 */
+    /* 統計情報をコンパクトに - 1行レイアウトに変更 */
     .stats-container {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto auto;
-        gap: 5px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        gap: 3px;
         width: 100%;
+        margin-bottom: 0; /* 5pxから0に変更して完全に削除 */
+    }
+    
+    /* 統計部分の下マージンを小さくする */
+    .stats {
+        margin-bottom: 0; /* マージンを完全に削除 */
     }
     
     .stat-item {
         padding: 3px 5px;
-        width: 100%;
-        font-size: 0.85rem;
+        width: 24%; /* 4項目を均等に配置 */
+        font-size: 0.75rem;
+        margin: 0; /* 上下マージンを削除 */
     }
     
     /* ラベルと値を縦に並べてさらにコンパクトに */
@@ -197,17 +205,18 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
         margin: 0;
-        line-height: 1.2;
+        line-height: 1.1;
     }
     
     .stat-item .stat-label {
-        font-size: 0.75rem;
+        font-size: 0.65rem;
         color: #666;
     }
     
     .stat-item .stat-value {
-        font-size: 1.1rem;
+        font-size: 1rem;
         font-weight: bold;
     }
     
@@ -220,10 +229,12 @@
         align-items: center;
         flex-wrap: wrap;
         height: 50px;
+        margin-top: 0; /* 5pxから0に変更して上マージンを削除 */
     }
     
     .streak-container-wrapper {
         height: 50px !important;
+        margin-top: 0 !important; /* 5pxから0に変更して上マージンを完全に削除 */
     }
     
     #streak-count {
@@ -246,15 +257,28 @@
     
     /* ゲームエリアのパディングを減らす */
     .game-area {
-        padding: 10px;
+        padding: 0; /* 10pxから0に変更 */
     }
     
     #question-container {
-        margin-bottom: 15px;
+        margin-bottom: 0; /* 15pxから0に変更 */
+        padding: 0; /* 5px 0 から 0に変更して余白を完全に削除 */
     }
     
     #question-text {
-        font-size: 20px;
+        font-size: 18px; /* 20pxから18pxに縮小 */
+        margin-bottom: 0; /* 下マージンを削除 */
+        line-height: 1.2; /* 行間を狭く */
+        padding: 2px 0; /* 上下のパディングを小さく */
+    }
+    
+    /* 名前選択モード用の質問画像調整 */
+    #question-image {
+        padding: 2px 0; /* 上下のパディングを小さく */
+    }
+    
+    #question-image img {
+        max-height: 180px; /* 画像の最大高さを制限 */
     }
     
     /* 選択肢のサイズを調整 */
@@ -269,12 +293,37 @@
     #options-container.image-select-mode.four-options {
         display: grid !important;
         grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
+        gap: 0; /* 10pxから0に変更 */
     }
     
     .option {
         width: 100%;
         height: auto;
+    }
+    
+    /* 画像選択モードの選択肢を正方形に調整 */
+    .option.image-option {
+        width: 100%;
+        height: 0;
+        padding-bottom: 100%; /* 幅と同じ高さになるよう設定（正方形） */
+        position: relative;
+        overflow: hidden; /* はみ出した画像を隠す */
+    }
+    
+    /* 画像を正方形コンテナの中央に配置し、枠いっぱいに表示 */
+    .option.image-option img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* 画像を枠に合わせる */
+        margin: 0 !important; /* 余分なマージンを削除 */
+    }
+    
+    /* タレント情報の上マージンを削除 */
+    .talent-info {
+        margin-top: 0 !important; /* 上マージンを0に設定 */
     }
     
     /* 名前選択モード用 */
@@ -287,7 +336,7 @@
     #options-container.name-select-mode {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
+        gap: 0; /* 10pxから0に変更 */
     }
     
     #options-container.name-select-mode.four-options {
@@ -301,6 +350,19 @@
         height: 120px;
     }
     
+    /* 選択肢が3つの場合、3つ目（最後の子要素）を中央寄せ */
+    #options-container .option:nth-child(3):last-child {
+        grid-column: 1 / -1; /* 行全体を使用 */
+        justify-self: center; /* 水平方向の中央寄せ */
+        max-width: calc(50% - 5px); /* 幅を制限して視覚的にも中央に見えるようにする */
+    }
+    
+    /* 選択肢が3つの場合の画像選択モードにおける3つ目の選択肢を正方形に */
+    #options-container.image-select-mode .option.image-option:nth-child(3):last-child {
+        padding-bottom: calc(50% - 5px); /* max-widthと同じ値で正方形に */
+        height: 0;
+    }
+
     /* テキストサイズの調整 */
     .talent-name {
         font-size: 1.2rem;
@@ -312,6 +374,7 @@
     
     /* 連続正解表示の調整 */
     #streak-container {
+        margin-top: 0; /* 8pxから0に変更して上マージンを削除 */
         padding: 8px;
         min-height: auto;
     }
@@ -329,14 +392,7 @@
         text-align: center;
         width: 100% !important;
         margin: 0 !important;
-    }
-    
-    .image-option img {
-        margin-left: auto !important;
-        margin-right: auto !important;
-        max-width: 90%;
-        width: auto;
-        display: block;
+        overflow: hidden; /* はみ出した画像を隠す */
     }
     
     #options-container .option.image-option {
@@ -346,13 +402,6 @@
         align-items: center;
         width: 100%;
         box-sizing: border-box;
-    }
-
-    /* 選択肢が3つの場合、3つ目（最後の子要素）を中央寄せ */
-    #options-container .option:nth-child(3):last-child {
-        grid-column: 1 / -1; /* 行全体を使用 */
-        justify-self: center; /* 水平方向の中央寄せ */
-        max-width: calc(50% - 5px); /* 幅を制限して視覚的にも中央に見えるようにする */
     }
 
     /* タイトルのレスポンシブ対応 */
@@ -392,7 +441,7 @@
     
     /* ストリークとフィードバック */
     #streak-container {
-        margin-top: 8px;
+        margin-top: 0; /* 8pxから0に変更して上マージンを削除 */
         padding: 8px 10px;
         min-height: 50px;
     }
@@ -404,7 +453,7 @@
     
     /* ゲームタイトル */
     .game-title-container {
-        margin: 8px auto 12px;
+        margin: 0; /* 上下左右のマージンを完全に削除（0 0 8pxから変更） */
     }
     
     .game-title-inner {
@@ -425,7 +474,7 @@
     
     /* 選択肢とゲーム要素 */
     .option, .game-container > div {
-        margin-bottom: 8px;
+        margin-bottom: 0; /* 8pxから0に変更 */
     }
 
     /* タイマーの調整 */
@@ -490,7 +539,7 @@
     .settings-status-bar {
         padding: 3px 6px; /* さらに小さく */
         min-height: 30px; /* 最小高さをさらに小さく */
-        margin-bottom: 8px;
+        margin-bottom: 0; /* 8pxから0に変更して完全に削除 */
     }
     
     .current-settings {
@@ -570,16 +619,16 @@
     
     /* 統計情報をさらにコンパクトに */
     .stat-item {
-        padding: 2px 3px;
-        font-size: 0.8rem;
-    }
-    
-    .stat-item .stat-label {
+        padding: 2px 2px;
         font-size: 0.7rem;
     }
     
+    .stat-item .stat-label {
+        font-size: 0.6rem;
+    }
+    
     .stat-item .stat-value {
-        font-size: 1rem;
+        font-size: 0.9rem;
     }
 
     /* タイトルのレスポンシブ対応 */

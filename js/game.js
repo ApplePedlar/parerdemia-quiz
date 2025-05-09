@@ -10,7 +10,7 @@
 // ゲームの状態 - グローバルにエクスポートして他のファイルからアクセス可能にします
 window.gameState = {
     mode: 'image-select',
-    optionsCount: 4,
+    optionsCount: 3, // 4から3に変更してHTMLのアクティブボタンと一致させる
     difficulty: 'easy', // 'easy', 'hard', 'oni'
     talents: [],
     shuffledTalents: [],

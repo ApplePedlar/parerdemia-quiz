@@ -174,17 +174,17 @@ function displayQuestion() {
         const talentInfoDiv = document.createElement('div');
         talentInfoDiv.className = 'talent-info';
         
-        // タレント名
-        const nameElement = document.createElement('div');
-        nameElement.className = 'talent-name';
-        nameElement.textContent = correctTalent.name;
-        talentInfoDiv.appendChild(nameElement);
-        
-        // カナ
+        // カナ（先に表示するように変更）
         const kanaElement = document.createElement('div');
         kanaElement.className = 'talent-kana';
         kanaElement.textContent = correctTalent.kana;
         talentInfoDiv.appendChild(kanaElement);
+        
+        // タレント名（カナの後に表示するように変更）
+        const nameElement = document.createElement('div');
+        nameElement.className = 'talent-name';
+        nameElement.textContent = correctTalent.name;
+        talentInfoDiv.appendChild(nameElement);
         
         // 寮名 (「寮」を追加)
         const dormitoryElement = document.createElement('div');
@@ -257,17 +257,17 @@ function displayQuestion() {
             const textDiv = document.createElement('div');
             textDiv.className = 'option-text centered';
             
-            // タレント名
-            const nameElement = document.createElement('div');
-            nameElement.className = 'talent-name';
-            nameElement.textContent = talent.name;
-            textDiv.appendChild(nameElement);
-            
-            // カナ
+            // カナ（先に表示するように変更）
             const kanaElement = document.createElement('div');
             kanaElement.className = 'talent-kana';
             kanaElement.textContent = talent.kana;
             textDiv.appendChild(kanaElement);
+            
+            // タレント名（カナの後に表示するように変更）
+            const nameElement = document.createElement('div');
+            nameElement.className = 'talent-name';
+            nameElement.textContent = talent.name;
+            textDiv.appendChild(nameElement);
             
             // 寮名 (「寮」を追加)
             const dormitoryElement = document.createElement('div');
