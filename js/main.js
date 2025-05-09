@@ -28,6 +28,8 @@ function initialize() {
                 gameState.mode = 'image-select';
             } else if (btn.id === 'name-select-mode') {
                 gameState.mode = 'name-select';
+            } else if (btn.id === 'dream-select-mode') {
+                gameState.mode = 'dream-select';
             }
         }
     });
@@ -78,6 +80,7 @@ function setupEventListeners() {
     // ゲームモード切り替え
     document.getElementById('image-select-mode').addEventListener('click', () => setGameMode('image-select'));
     document.getElementById('name-select-mode').addEventListener('click', () => setGameMode('name-select'));
+    document.getElementById('dream-select-mode').addEventListener('click', () => setGameMode('dream-select'));
     
     // 選択肢数切り替え
     document.getElementById('option-2').addEventListener('click', () => setOptionsCount(2));

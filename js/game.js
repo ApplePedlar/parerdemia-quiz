@@ -66,15 +66,24 @@ function setGameMode(mode) {
     // ボタンの見た目を更新
     document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
     
-    const buttonId = mode === 'image-select' ? 'image-select-mode' : 'name-select-mode';
+    let buttonId;
+    if (mode === 'image-select') {
+        buttonId = 'image-select-mode';
+    } else if (mode === 'name-select') {
+        buttonId = 'name-select-mode';
+    } else {
+        buttonId = 'dream-select-mode';
+    }
     document.getElementById(buttonId).classList.add('active');
     
     // モード説明のテキストを更新
     const descText = document.getElementById('mode-description-text');
     if (mode === 'image-select') {
         descText.textContent = 'このタレントの顔はどれ？';
-    } else {
+    } else if (mode === 'name-select') {
         descText.textContent = 'この顔のタレントは誰？';
+    } else {
+        descText.textContent = 'この夢を持つタレントは誰？';
     }
     
     // ステータス表示を更新

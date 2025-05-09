@@ -102,7 +102,13 @@ function updateSettingsDisplay() {
     const currentOptions = document.getElementById('current-options');
     
     if (currentMode) {
-        currentMode.textContent = gameState.mode === 'image-select' ? '顔当て' : '名前当て';
+        if (gameState.mode === 'image-select') {
+            currentMode.textContent = '顔当て';
+        } else if (gameState.mode === 'name-select') {
+            currentMode.textContent = '名前当て';
+        } else if (gameState.mode === 'dream-select') {
+            currentMode.textContent = '誰の夢？';
+        }
     }
     
     if (currentDifficulty) {
@@ -154,8 +160,8 @@ function displayQuestion() {
     // 選択肢数に応じてコンテナのスタイルを調整
     optionsContainer.classList.remove('name-select-mode', 'four-options', 'image-select-mode');
     
-    if (gameState.mode === 'name-select') {
-        // 名前選択モードのクラスを追加
+    if (gameState.mode === 'name-select' || gameState.mode === 'dream-select') {
+        // 名前選択モードと誰の夢モードは同じレイアウト
         optionsContainer.classList.add('name-select-mode');
         if (gameState.optionsCount === 4) {
             optionsContainer.classList.add('four-options');
@@ -224,6 +230,54 @@ function displayQuestion() {
             overlayName.textContent = talent.name;
             
             overlay.appendChild(overlayName); // 修正：overlayNameを追加する
+            
+            option.appendChild(overlay);
+            
+            option.addEventListener('click', checkAnswer);
+            optionsContainer.appendChild(option);
+        });
+    } else if (gameState.mode === 'dream-select') {
+        // 誰の夢？モード: 夢を表示し、複数の顔から選ばせる
+        // 顔当てモードと基本的に同じだが、夢を表示する
+        
+        const correctTalent = gameState.currentQuestion.correctTalent;
+        
+        // タレント情報の構造化表示（夢を表示）
+        const talentInfoDiv = document.createElement('div');
+        talentInfoDiv.className = 'talent-info';
+        
+        // 夢を表示
+        const dreamElement = document.createElement('div');
+        dreamElement.className = 'talent-dream';
+        dreamElement.textContent = correctTalent.dream;
+        talentInfoDiv.appendChild(dreamElement);
+        
+        questionText.appendChild(talentInfoDiv);
+        questionText.classList.remove('hidden');
+        questionImage.classList.add('hidden');
+        
+        // 選択肢（画像）を表示 - 顔当てモードと同じ処理
+        gameState.currentQuestion.options.forEach(talent => {
+            const option = document.createElement('div');
+            option.className = 'option image-option centered';
+            option.dataset.name = talent.name; // データ属性に名前を保存
+            
+            // 画像を追加
+            const img = document.createElement('img');
+            img.src = talent.image;
+            img.alt = talent.name;
+            option.appendChild(img);
+            
+            // オーバーレイ情報を追加
+            const overlay = document.createElement('div');
+            overlay.className = 'image-overlay';
+            
+            // タレント名のみ表示
+            const overlayName = document.createElement('div');
+            overlayName.className = 'talent-name';
+            overlayName.textContent = talent.name;
+            
+            overlay.appendChild(overlayName);
             
             option.appendChild(overlay);
             
