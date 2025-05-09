@@ -16,6 +16,7 @@ window.gameState = {
     shuffledTalents: [],
     currentIndex: 0,
     currentQuestion: null,
+    nextQuestion: null, // 次の問題を格納するプロパティを追加
     correctAnswers: 0,
     incorrectAnswers: 0,
     totalAnswers: 0,
@@ -87,6 +88,9 @@ function setGameMode(mode) {
     // タレントをシャッフル
     shuffleTalents();
     
+    // 次の問題をリセット
+    gameState.nextQuestion = null;
+    
     generateQuestion();
 }
 
@@ -125,6 +129,9 @@ function setOptionsCount(count) {
     
     // タレントをシャッフル
     shuffleTalents();
+    
+    // 次の問題をリセット
+    gameState.nextQuestion = null;
     
     generateQuestion();
 }
@@ -170,44 +177,28 @@ function setDifficulty(difficulty) {
     // タレントをシャッフル
     shuffleTalents();
     
+    // 次の問題をリセット
+    gameState.nextQuestion = null;
+    
     generateQuestion();
 }
 
 /**
- * 問題の生成
+ * 次の問題を準備する関数
  * 
- * シャッフルされたタレントリストから順番に出題します。
- * 全タレントを出題し終わったら最初から再開します。
- * こうして60名全員のタレントさんと出会うことができます。
- * 一巡すると達成感もありますね！
+ * 次の問題を事前に生成し、その画像をプリロードします。
+ * 雨宮のあさんのように先を読み、画像表示の遅延を軽減して
+ * スムーズなゲーム体験を提供します。
  */
-function generateQuestion() {
-    // タイマーをリセット・停止
-    stopTimer();
-    
-    if (gameState.isWaitingForNext) return;
-    
-    // 前の問題の回答表示をクリア
-    document.getElementById('options-container').classList.remove('show-answer');
-    
-    // フィードバックとタイマーをクリア
-    const feedback = document.getElementById('feedback');
-    feedback.className = 'hidden';
-    feedback.innerHTML = '';
-    
-    // すでに表示されていたタイマーを非表示
-    document.getElementById('timer-container').classList.add('hidden');
-    
-    // シャッフルされたリストから現在の位置のタレントを選択
-    const correctIndex = gameState.shuffledTalents[gameState.currentIndex];
-    const correctTalent = gameState.talents[correctIndex];
-    
-    // 次の位置に進む
-    gameState.currentIndex = (gameState.currentIndex + 1) % gameState.shuffledTalents.length;
+function prepareNextQuestion() {
+    // 次のインデックスを計算
+    const nextIndex = (gameState.currentIndex + 1) % gameState.shuffledTalents.length;
+    const nextTalentIndex = gameState.shuffledTalents[nextIndex];
+    const nextCorrectTalent = gameState.talents[nextTalentIndex];
     
     // 他の選択肢を生成（重複なし）
     const otherOptions = [];
-    const usedIndices = new Set([correctIndex]);
+    const usedIndices = new Set([nextTalentIndex]);
     
     if (gameState.difficulty === 'easy') {
         // 難易度低: 完全ランダムな選択肢生成
@@ -220,12 +211,12 @@ function generateQuestion() {
         }
     } else {
         // 難易度高: 同じ髪色のタレントを優先的に選択肢に含める
-        const correctHairColor = correctTalent.hairColor;
+        const correctHairColor = nextCorrectTalent.hairColor;
         
         // 同じ髪色のタレントをフィルタリング
         const sameHairColorTalents = [];
         gameState.talents.forEach((talent, index) => {
-            if (index !== correctIndex && talent.hairColor === correctHairColor) {
+            if (index !== nextTalentIndex && talent.hairColor === correctHairColor) {
                 sameHairColorTalents.push({talent, index});
             }
         });
@@ -254,14 +245,118 @@ function generateQuestion() {
     }
     
     // 全選択肢をシャッフル
-    const allOptions = [correctTalent, ...otherOptions];
+    const allOptions = [nextCorrectTalent, ...otherOptions];
     shuffleArray(allOptions);
     
-    // 現在の問題を保存
-    gameState.currentQuestion = {
-        correctTalent,
+    // 次の問題を保存
+    gameState.nextQuestion = {
+        correctTalent: nextCorrectTalent,
         options: allOptions,
     };
+    
+    // 画像をプリロード
+    const imagesToPreload = extractImageUrls(gameState.nextQuestion);
+    preloadImages(imagesToPreload);
+}
+
+/**
+ * 問題の生成
+ * 
+ * シャッフルされたタレントリストから順番に出題します。
+ * 全タレントを出題し終わったら最初から再開します。
+ * こうして60名全員のタレントさんと出会うことができます。
+ * 一巡すると達成感もありますね！
+ */
+function generateQuestion() {
+    // タイマーをリセット・停止
+    stopTimer();
+    
+    if (gameState.isWaitingForNext) return;
+    
+    // 前の問題の回答表示をクリア
+    document.getElementById('options-container').classList.remove('show-answer');
+    
+    // フィードバックとタイマーをクリア
+    const feedback = document.getElementById('feedback');
+    feedback.className = 'hidden';
+    feedback.innerHTML = '';
+    
+    // すでに表示されていたタイマーを非表示
+    document.getElementById('timer-container').classList.add('hidden');
+    
+    // 事前に生成された次の問題があれば使用する
+    if (gameState.nextQuestion) {
+        gameState.currentQuestion = gameState.nextQuestion;
+        gameState.nextQuestion = null;
+    } else {
+        // シャッフルされたリストから現在の位置のタレントを選択
+        const correctIndex = gameState.shuffledTalents[gameState.currentIndex];
+        const correctTalent = gameState.talents[correctIndex];
+        
+        // 他の選択肢を生成（重複なし）
+        const otherOptions = [];
+        const usedIndices = new Set([correctIndex]);
+        
+        if (gameState.difficulty === 'easy') {
+            // 難易度低: 完全ランダムな選択肢生成
+            while (otherOptions.length < gameState.optionsCount - 1) {
+                const randomIndex = Math.floor(Math.random() * gameState.talents.length);
+                if (!usedIndices.has(randomIndex)) {
+                    usedIndices.add(randomIndex);
+                    otherOptions.push(gameState.talents[randomIndex]);
+                }
+            }
+        } else {
+            // 難易度高: 同じ髪色のタレントを優先的に選択肢に含める
+            const correctHairColor = correctTalent.hairColor;
+            
+            // 同じ髪色のタレントをフィルタリング
+            const sameHairColorTalents = [];
+            gameState.talents.forEach((talent, index) => {
+                if (index !== correctIndex && talent.hairColor === correctHairColor) {
+                    sameHairColorTalents.push({talent, index});
+                }
+            });
+            
+            // 同じ髪色のタレントをシャッフル
+            shuffleArray(sameHairColorTalents);
+            
+            // 同じ髪色のタレントから可能な限り選択肢に追加
+            for (const {talent, index} of sameHairColorTalents) {
+                if (otherOptions.length < gameState.optionsCount - 1) {
+                    usedIndices.add(index);
+                    otherOptions.push(talent);
+                } else {
+                    break;
+                }
+            }
+            
+            // 足りない場合は他の髪色から追加
+            while (otherOptions.length < gameState.optionsCount - 1) {
+                const randomIndex = Math.floor(Math.random() * gameState.talents.length);
+                if (!usedIndices.has(randomIndex)) {
+                    usedIndices.add(randomIndex);
+                    otherOptions.push(gameState.talents[randomIndex]);
+                }
+            }
+        }
+        
+        // 全選択肢をシャッフル
+        const allOptions = [correctTalent, ...otherOptions];
+        shuffleArray(allOptions);
+        
+        // 現在の問題を保存
+        gameState.currentQuestion = {
+            correctTalent,
+            options: allOptions,
+        };
+    }
+    
+    // 次のインデックスに進む
+    gameState.currentIndex = (gameState.currentIndex + 1) % gameState.shuffledTalents.length;
+    
+    // 次の問題を準備してプリロード
+    prepareNextQuestion();
     
     // 問題を表示
     displayQuestion();

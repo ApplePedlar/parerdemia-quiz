@@ -32,3 +32,54 @@ function shuffleTalents() {
     // 出題位置をリセット
     gameState.currentIndex = 0;
 }
+
+/**
+ * 画像をプリロードする関数
+ * 
+ * 指定されたURL配列の画像を事前に読み込みます。
+ * パレデミア学園のタレント達の魅力をスムーズに表示するため、
+ * 次の問題の画像を先読みしておきます。
+ * 
+ * @param {Array} urls - プリロードする画像のURL配列
+ */
+function preloadImages(urls) {
+    if (!urls || !Array.isArray(urls)) return;
+    
+    urls.forEach(url => {
+        if (url) {
+            const img = new Image();
+            img.src = url;
+        }
+    });
+}
+
+/**
+ * 問題から画像URLを抽出する関数
+ * 
+ * 問題オブジェクトからタレントの画像URLを抽出して配列で返します。
+ * 画像選択モード、名前選択モードの両方に対応しています。
+ * 
+ * @param {Object} question - 問題オブジェクト
+ * @return {Array} - 画像URLの配列
+ */
+function extractImageUrls(question) {
+    if (!question) return [];
+    
+    const urls = [];
+    
+    // 正解タレントの画像を追加
+    if (question.correctTalent && question.correctTalent.image) {
+        urls.push(question.correctTalent.image);
+    }
+    
+    // 各選択肢のタレント画像を追加
+    if (question.options && Array.isArray(question.options)) {
+        question.options.forEach(talent => {
+            if (talent && talent.image && !urls.includes(talent.image)) {
+                urls.push(talent.image);
+            }
+        });
+    }
+    
+    return urls;
+}

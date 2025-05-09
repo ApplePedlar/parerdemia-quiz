@@ -114,6 +114,12 @@ function updateSettingsDisplay() {
     if (currentOptions) {
         currentOptions.textContent = gameState.optionsCount;
     }
+    
+    // 設定変更後に次の問題の画像をプリロード
+    if (gameState.nextQuestion) {
+        const imagesToPreload = extractImageUrls(gameState.nextQuestion);
+        preloadImages(imagesToPreload);
+    }
 }
 
 /**

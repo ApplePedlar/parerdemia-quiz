@@ -19,6 +19,15 @@ function resetAllStats() {
     gameState.correctAnswers = 0;
     gameState.incorrectAnswers = 0;
     
+    // 次の問題もリセットして再プリロード
+    if (gameState.nextQuestion) {
+        gameState.nextQuestion = null;
+        // 既に初期化済みであれば次の問題を準備
+        if (gameState.talents && gameState.talents.length > 0) {
+            prepareNextQuestion();
+        }
+    }
+    
     // 連続正解数の表示を隠し、代わりに説明文を表示
     const streakContainer = document.getElementById('streak-container');
     const descriptionContainer = document.getElementById('game-mode-description');

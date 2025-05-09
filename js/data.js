@@ -30,6 +30,8 @@ function loadTalents() {
             shuffleTalents();
             // データ読み込み完了後に問題を生成
             generateQuestion();
+            // 次の問題も事前に準備
+            prepareNextQuestion();
         })
         .catch(error => {
             console.error('タレントデータの読み込みエラー:', error);
