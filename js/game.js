@@ -386,6 +386,7 @@ function timeUp() {
     feedback.classList.remove('hidden');
 
     // 統計を更新（不正解として扱う）
+    gameState.totalAnswers++; // 追加：総回答数をインクリメント
     gameState.incorrectAnswers++;
     gameState.streakCount = 0;
     updateAccuracy();
