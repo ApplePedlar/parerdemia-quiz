@@ -17,7 +17,7 @@
     }
     
     h1 {
-        font-size: 24px;
+        font-size: 20px;
         margin-bottom: 15px;
     }
     
@@ -332,20 +332,24 @@
         height: 120px;
     }
     
-    /* 選択肢数にかかわらず、常に2列レイアウト */
-    #options-container.name-select-mode {
+    /* 選択肢数にかかわらず、常に2列レイアウト（名前選択モードと誰の夢モード） */
+    #options-container.name-select-mode,
+    #options-container.dream-select-mode {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 0; /* 10pxから0に変更 */
     }
     
-    #options-container.name-select-mode.four-options {
+    #options-container.name-select-mode.four-options,
+    #options-container.dream-select-mode.four-options {
         display: grid;
         flex-wrap: wrap;
     }
     
     .option.name-option.four-options,
-    .option.name-option.three-options {
+    .option.name-option.three-options,
+    .option.dream-option.four-options,
+    .option.dream-option.three-options {
         width: 100%;
         height: 120px;
     }
@@ -361,6 +365,23 @@
     #options-container.image-select-mode .option.image-option:nth-child(3):last-child {
         padding-bottom: calc(50% - 5px); /* max-widthと同じ値で正方形に */
         height: 0;
+    }
+    
+    /* 誰の夢モードにおける3つ目の選択肢の調整 */
+    #options-container.dream-select-mode .option.dream-option:nth-child(3):last-child,
+    #options-container.dream-select-mode .option.image-option:nth-child(3):last-child {
+        padding-bottom: calc(50% - 5px);
+        height: 0;
+    }
+    
+    /* 名前選択モードで選択肢が3つの場合、3つ目の選択肢の高さを適切に調整 */
+    #options-container.name-select-mode .option.name-option:nth-child(3):last-child {
+        height: 120px; /* 他の名前選択肢と同じ高さに */
+    }
+    
+    /* 誰の夢モードの名前選択肢で選択肢が3つの場合、3つ目の選択肢の高さを適切に調整 */
+    #options-container.dream-select-mode .option.name-option:nth-child(3):last-child {
+        height: 120px; /* 他の名前選択肢と同じ高さに */
     }
 
     /* テキストサイズの調整 */
@@ -435,10 +456,6 @@
         margin-bottom: 8px; /* 15pxから8pxに減らしてよりコンパクトに */
     }
     
-    .accordion-content {
-        /* padding: 8px; を削除 - アコーディオン表示の問題を解決 */
-    }
-    
     /* ストリークとフィードバック */
     #streak-container {
         margin-top: 0; /* 8pxから0に変更して上マージンを削除 */
@@ -493,6 +510,32 @@
     #feedback {
         padding: 10px 15px;
         font-size: 16px;
+    }
+
+    /* モバイル向けに夢のテキストサイズをさらに調整 */
+    .dream-text-short {
+        font-size: 22px !important;
+    }
+    
+    .dream-text-medium-short {
+        font-size: 20px !important;
+    }
+    
+    .dream-text-medium {
+        font-size: 16px !important;
+    }
+    
+    .dream-text-medium-long {
+        font-size: 14px !important;
+    }
+    
+    .dream-text-long {
+        font-size: 12px !important;
+    }
+    
+    .dream-text-very-long {
+        font-size: 11px !important;
+        padding: 15px 20px;
     }
 }
 
@@ -615,6 +658,23 @@
     /* 選択肢の高さを調整 */
     .option.name-option {
         height: 100px;
+    }
+    
+    /* 小さい画面での名前選択モードで選択肢が3つの場合、3つ目の選択肢の高さを調整 */
+    #options-container.name-select-mode .option.name-option:nth-child(3):last-child {
+        height: 100px; /* 他の名前選択肢と同じ高さに */
+    }
+    
+    /* 誰の夢モードの名前選択肢で選択肢が3つの場合、3つ目の選択肢の高さを調整 */
+    #options-container.dream-select-mode .option.name-option:nth-child(3):last-child {
+        height: 100px; /* 他の名前選択肢と同じ高さに */
+    }
+    
+    /* 誰の夢モードにおける画像選択肢の3つ目の選択肢の調整（小さい画面） */
+    #options-container.dream-select-mode .option.dream-option:nth-child(3):last-child,
+    #options-container.dream-select-mode .option.image-option:nth-child(3):last-child {
+        padding-bottom: calc(50% - 5px);
+        height: 0;
     }
     
     /* 統計情報をさらにコンパクトに */

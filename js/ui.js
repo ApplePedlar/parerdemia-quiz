@@ -158,11 +158,17 @@ function displayQuestion() {
     optionsContainer.innerHTML = '';
     
     // 選択肢数に応じてコンテナのスタイルを調整
-    optionsContainer.classList.remove('name-select-mode', 'four-options', 'image-select-mode');
+    optionsContainer.classList.remove('name-select-mode', 'four-options', 'image-select-mode', 'dream-select-mode');
     
-    if (gameState.mode === 'name-select' || gameState.mode === 'dream-select') {
-        // 名前選択モードと誰の夢モードは同じレイアウト
+    if (gameState.mode === 'name-select') {
+        // 名前選択モード
         optionsContainer.classList.add('name-select-mode');
+        if (gameState.optionsCount === 4) {
+            optionsContainer.classList.add('four-options');
+        }
+    } else if (gameState.mode === 'dream-select') {
+        // 誰の夢？モード - 名前表示付き
+        optionsContainer.classList.add('dream-select-mode');
         if (gameState.optionsCount === 4) {
             optionsContainer.classList.add('four-options');
         }
@@ -250,16 +256,20 @@ function displayQuestion() {
         const dreamElement = document.createElement('div');
         dreamElement.className = 'talent-dream';
         dreamElement.textContent = correctTalent.dream;
+        
+        // 夢の文字数に応じてフォントサイズを調整
+        adjustDreamFontSize(dreamElement, correctTalent.dream);
+        
         talentInfoDiv.appendChild(dreamElement);
         
         questionText.appendChild(talentInfoDiv);
         questionText.classList.remove('hidden');
         questionImage.classList.add('hidden');
         
-        // 選択肢（画像）を表示 - 顔当てモードと同じ処理
+        // 選択肢（画像）を表示 - タレント名も一緒に表示する
         gameState.currentQuestion.options.forEach(talent => {
             const option = document.createElement('div');
-            option.className = 'option image-option centered';
+            option.className = 'option image-option centered dream-option';
             option.dataset.name = talent.name; // データ属性に名前を保存
             
             // 画像を追加
@@ -268,17 +278,16 @@ function displayQuestion() {
             img.alt = talent.name;
             option.appendChild(img);
             
-            // オーバーレイ情報を追加
+            // オーバーレイ情報を追加（画像に重なる半透明の帯）
             const overlay = document.createElement('div');
-            overlay.className = 'image-overlay';
+            overlay.className = 'image-overlay dream-name-overlay';
             
-            // タレント名のみ表示
+            // タレント名を表示
             const overlayName = document.createElement('div');
             overlayName.className = 'talent-name';
             overlayName.textContent = talent.name;
             
             overlay.appendChild(overlayName);
-            
             option.appendChild(overlay);
             
             option.addEventListener('click', checkAnswer);
@@ -339,6 +348,49 @@ function displayQuestion() {
             option.addEventListener('click', checkAnswer);
             optionsContainer.appendChild(option);
         });
+    }
+}
+
+/**
+ * 夢の文字数に応じてフォントサイズを調整する関数
+ * 
+ * 文字数が多い場合は小さく、少ない場合は大きくすることで
+ * 視認性を向上させます。パレデミア学園の寮生たちの夢は
+ * 短いものから長いものまで様々なため、それぞれの夢を
+ * 最適な形で表示するための工夫です。
+ * すべての夢テキストは太字で表示されます。
+ * 
+ * @param {HTMLElement} element - 夢のテキストを表示する要素
+ * @param {string} dreamText - 夢のテキスト
+ */
+function adjustDreamFontSize(element, dreamText) {
+    const length = dreamText.length;
+    
+    // 文字数に応じてフォントサイズを設定（太字は.talent-dreamとクラスで保証）
+    if (length <= 10) {
+        // 非常に短い夢（例：「年収1000万」）
+        element.style.fontSize = '24px';
+        element.classList.add('dream-text-short');
+    } else if (length <= 30) {
+        // 短い夢
+        element.style.fontSize = '22px';
+        element.classList.add('dream-text-medium-short');
+    } else if (length <= 60) {
+        // 中程度の夢
+        element.style.fontSize = '18px'; // デフォルトサイズ
+        element.classList.add('dream-text-medium');
+    } else if (length <= 100) {
+        // やや長い夢
+        element.style.fontSize = '16px';
+        element.classList.add('dream-text-medium-long');
+    } else if (length <= 200) {
+        // 長い夢
+        element.style.fontSize = '14px';
+        element.classList.add('dream-text-long');
+    } else {
+        // 非常に長い夢（例：天辻ゆらぐさんの夢）
+        element.style.fontSize = '12px';
+        element.classList.add('dream-text-very-long');
     }
 }
 
