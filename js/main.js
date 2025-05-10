@@ -12,7 +12,20 @@
 
 // DOMが読み込まれたときの処理
 document.addEventListener('DOMContentLoaded', () => {
-    initialize();
+    // スクリプトの読み込みを確認する
+    if (typeof window.setupSettingsModal === 'function') {
+        initialize();
+    } else {
+        console.error('UI関数が見つかりません。スクリプトの読み込み順序を確認してください。');
+        // スクリプトの読み込みを待機する簡易機能を追加
+        setTimeout(() => {
+            if (typeof window.setupSettingsModal === 'function') {
+                initialize();
+            } else {
+                console.error('UI関数の読み込みに失敗しました。ページを再読み込みしてください。');
+            }
+        }, 500); // 500ミリ秒待機
+    }
 });
 
 // ゲームの初期化
@@ -20,7 +33,9 @@ function initialize() {
     // gameStateはgame.jsで定義されたグローバルオブジェクトを使用
     loadTalents();
     setupEventListeners();
-    setupSettingsModal(); // ui.jsで定義された関数を呼び出し
+    
+    // ui.jsで定義された関数をwindowオブジェクト経由で呼び出し
+    window.setupSettingsModal();
     
     // HTMLのactiveクラスに合わせてゲーム状態を確認
     // ゲームモードの確認

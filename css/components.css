@@ -78,7 +78,7 @@
     fill: currentColor;
 }
 
-/* モーダルスタイル */
+/* モーダルスタイル - 完全再設計版 */
 .modal {
     display: none;
     position: fixed;
@@ -87,26 +87,48 @@
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
     background-color: rgba(0,0,0,0.5);
-    animation: fadeIn 0.3s;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    /* スクロール禁止の設定はbody.modal-openで対応 */
 }
 
 .modal.show,
 .modal.open {
-    display: block;
+    display: flex; /* ブロックからフレックスに変更 */
+    align-items: center; /* 垂直中央揃え */
+    justify-content: center; /* 水平中央揃え */
+    opacity: 1;
+    visibility: visible;
 }
 
 .modal-content {
     background-color: #fff;
-    margin: 15% auto;
-    max-width: 500px;
+    width: 90%;
+    max-width: 500px; /* 標準モーダルの最大幅 */
+    max-height: 85vh; /* 画面の高さの85%に制限 */
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-    animation: slideIn 0.3s;
-    position: relative; /* 追加: 相対位置指定 */
-    max-height: 90vh; /* 追加: 画面高さの90%まで */
-    overflow-y: auto; /* 追加: 必要に応じてスクロール可能に */
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    transform: translateY(-30px);
+    opacity: 0;
+    transition: transform 0.3s, opacity 0.3s;
+    position: relative;
+    /* スクロールはモーダル本文に任せる */
+}
+
+/* ヘルプモーダルは幅を広く */
+#help-modal .modal-content {
+    max-width: 800px;
+}
+
+.modal.show .modal-content,
+.modal.open .modal-content {
+    transform: translateY(0);
+    opacity: 1;
 }
 
 .modal-header {
@@ -115,41 +137,146 @@
     align-items: center;
     padding: 15px 20px;
     border-bottom: 1px solid #eee;
-}
-
-.modal-header h3 {
-    margin: 0;
-    color: #5d7a8e;
-    flex: 1 1 auto; /* タイトルを伸縮可能に */
-}
-
-.close-button {
-    background: none;
-    border: none;
-    font-size: 20px;
-    font-weight: bold;
-    color: #999;
-    cursor: pointer;
-    transition: color 0.3s, background 0.3s;
-    width: 32px;
-    height: 32px;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0;
-    margin-left: 10px; /* タイトルとの間隔 */
-    flex: 0 0 32px; /* flex-grow:0, flex-shrink:0, flex-basis:32px */
-    border-radius: 50%; /* 丸くして視認性と操作性を向上 */
-}
-
-.close-button:hover {
-    color: #333;
-    background-color: rgba(0, 0, 0, 0.05); /* ホバー時に軽い背景色を表示 */
+    flex-shrink: 0; /* ヘッダーは縮まない */
+    background-color: #fff; /* 確実に背景色を指定 */
+    border-radius: 8px 8px 0 0; /* 上部の角丸 */
+    position: sticky; /* ヘッダーを固定 */
+    top: 0; /* 上部に固定 */
+    z-index: 10; /* 重なり順を指定 */
 }
 
 .modal-body {
     padding: 20px;
+    overflow-y: auto; /* 縦方向のスクロールを許可 */
+    flex-grow: 1; /* 残りのスペースを埋める */
+    -webkit-overflow-scrolling: touch; /* iOSでのスムーズスクロール */
+}
+
+/* ヘルプモーダルのコンテンツ部分 */
+.help-modal-body {
+    padding: 20px;
+    overflow-y: auto; /* スクロール可能に設定 */
+    -webkit-overflow-scrolling: touch; /* iOSでのスムーズスクロール */
+    max-height: 70vh; /* 高さ制限を設定（修正） */
+}
+
+/* 長いヘルプコンテンツ用のスタイル */
+.help-section {
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+.help-section h4 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #eee;
+    color: #6d8296;
+    font-size: 1.15rem;
+}
+
+.help-section:first-child h4 {
+    margin-top: 0;
+}
+
+.help-section p {
+    margin-bottom: 12px;
+}
+
+/* ヘルプモーダル内のリスト要素 */
+.help-section ul {
+    margin: 10px 0 15px 20px;
+    padding-left: 10px;
+    list-style-position: outside;
+}
+
+.help-section li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+    position: relative;
+    padding-left: 5px;
+}
+
+.help-section li strong {
+    color: #754c56;
+    font-weight: 600;
+}
+
+/* ヘルプモーダル内のリンクスタイル */
+.help-section a {
+    color: #8a70d6;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    font-weight: 500;
+    border-bottom: 1px dotted #8a70d6;
+    padding-bottom: 1px;
+}
+
+.help-section a:hover {
+    color: #e860a4;
+    border-bottom-color: #e860a4;
+}
+
+/* 公式リンク用の特別スタイル */
+.help-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 10px;
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.help-links li {
+    padding: 0;
+}
+
+.help-links a {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #f5f7fa;
+    border-radius: 20px;
+    color: #754c56;
+    border-bottom: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.help-links a:hover {
+    background-color: #e8f0f8;
+    transform: translateY(-2px);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    color: #e860a4;
+}
+
+/* 開発者よりセクションの特別スタイル */
+.help-section:last-child {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 3px solid #8a70d6;
+}
+
+.help-section:last-child p:last-child {
+    margin-bottom: 0;
+}
+
+/* モバイル向け調整 */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95%;
+        max-height: 80vh; /* モバイルでは少し小さく */
+        margin: 10px;
+    }
+    
+    .modal-header {
+        padding: 12px 15px;
+    }
+    
+    .modal-body, 
+    .help-modal-body {
+        padding: 15px;
+    }
 }
 
 /* 各設定セクションのスタイル調整 */
@@ -365,6 +492,10 @@ button {
     max-width: 100%;
     box-sizing: border-box;
     border-bottom: 1px solid rgba(0,0,0,0.05); /* 微妙な下線を追加 */
+    display: flex; /* フレックスボックスに変更 */
+    align-items: center; /* 中央揃え */
+    justify-content: center; /* 中央揃え */
+    position: relative; /* ヘルプボタンの位置決めのため */
 }
 
 .game-title {
@@ -501,4 +632,55 @@ button {
     0% { opacity: 0.5; transform: translate(0, 0) scale(0.9); }
     50% { opacity: 1; transform: translate(3px, -3px) scale(1.3); }
     100% { opacity: 0.5; transform: translate(0, 0) scale(0.9); }
+}
+
+/* ヘルプボタンのスタイル */
+.help-button {
+    background: none;
+    border: none;
+    color: #bbb; /* 非常に薄い色 */
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    min-width: 26px; /* 追加: min-widthを明示的に設定 */
+    min-height: 26px; /* 追加: min-heightも設定 */
+    max-width: 26px; /* 追加: max-widthも設定して確実に */
+    padding: 0;
+    border-radius: 50%;
+    position: absolute; /* 絶対位置指定 */
+    right: 10px; /* 右端に配置 */
+    top: 50%; /* 上下中央 */
+    transform: translateY(-50%);
+    font-size: 14px;
+    font-weight: bold;
+    border: 1px solid #ddd;
+    box-sizing: border-box; /* 境界線とパディングを含めたサイズ計算 */
+    line-height: 1; /* テキストの行の高さを調整 */
+    aspect-ratio: 1/1; /* 縦横比を1:1に強制 */
+    text-align: center; /* テキストを中央に */
+}
+
+.help-button:hover {
+    background-color: rgba(151, 174, 192, 0.1);
+    color: #97aec0;
+    border-color: #ccc;
+}
+
+/* ヘルプモーダルのPC表示用スタイル */
+@media (min-width: 768px) {
+    #help-modal .modal-content {
+        max-width: 800px; /* 通常のモーダルより幅広に */
+        width: 90%;
+        max-height: 90vh; /* モーダル全体の高さ制限 */
+    }
+    
+    .help-modal-body {
+        /* スクロールを有効化（修正） */
+        overflow-y: auto;
+        max-height: 70vh; /* 高さ制限を設定（修正） */
+    }
 }
