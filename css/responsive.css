@@ -275,11 +275,46 @@
         padding: 0; /* 5px 0 から 0に変更して余白を完全に削除 */
     }
     
+    /* 誰の夢？モードの夢テキスト表示最適化 */
+    .talent-dream {
+        font-size: 16px;
+        margin: 5px 10px 10px; /* マージンを大幅削減 */
+        padding: 8px 20px; /* 左右のパディングを15pxから20pxに増加 */
+        max-height: none; /* 高さ制限を削除 */
+        overflow-y: visible; /* スクロールを不要に */
+    }
+    
+    /* 誰の夢？モードでの夢テキストのマージンを0に設定 */
+    #options-container.dream-select-mode ~ .game-area .talent-dream,
+    body:has(#options-container.dream-select-mode) .talent-dream,
+    .game-area:has(#options-container.dream-select-mode) .talent-dream {
+        margin: 0;
+    }
+    
+    /* 夢テキストの引用符のサイズ調整 */
+    .talent-dream::before,
+    .talent-dream::after {
+        font-size: 18px;
+    }
+    
     #question-text {
         font-size: 18px; /* 20pxから18pxに縮小 */
         margin-bottom: 0; /* 下マージンを削除 */
         line-height: 1.2; /* 行間を狭く */
         padding: 2px 0; /* 上下のパディングを小さく */
+    }
+    
+    /* 誰の夢？モードでのquestion-textの下マージンを確実に0に */
+    #options-container.dream-select-mode ~ #question-text,
+    body:has(#options-container.dream-select-mode) #question-text,
+    .game-area:has(#options-container.dream-select-mode) #question-text {
+        margin-bottom: 0 !important;
+    }
+    
+    /* 誰の夢？モードでの.talent-infoのパディングを削除（セレクタを修正） */
+    #options-container.dream-select-mode ~ #question-container .talent-info,
+    .game-area:has(#options-container.dream-select-mode) #question-container .talent-info {
+        padding: 0;
     }
     
     /* 名前当てモード用の質問画像調整 */
@@ -525,41 +560,32 @@
     /* モバイル向けに夢のテキストサイズをさらに調整 */
     .dream-text-short {
         font-size: 22px !important;
+        padding: 5px 10px !important; /* パディングを調整 */
     }
     
     .dream-text-medium-short {
         font-size: 20px !important;
+        padding: 5px 10px !important;
     }
     
     .dream-text-medium {
         font-size: 16px !important;
+        padding: 5px 10px !important;
     }
     
     .dream-text-medium-long {
         font-size: 14px !important;
+        padding: 5px 10px !important;
     }
     
     .dream-text-long {
         font-size: 12px !important;
+        padding: 5px 10px !important;
     }
     
     .dream-text-very-long {
         font-size: 11px !important;
-        padding: 15px 20px;
-    }
-
-    /* ヘルプボタンのモバイル調整 */
-    .help-button {
-        width: 22px;
-        height: 22px;
-        min-width: 22px; /* 追加: min-widthを明示的に設定 */
-        min-height: 22px; /* 追加: min-heightも設定 */
-        max-width: 22px; /* 追加: max-widthも設定 */
-        font-size: 12px;
-        right: 5px;
-        box-sizing: border-box; /* 境界線とパディングを含めたサイズ計算 */
-        line-height: 1; /* テキストの行の高さを調整 */
-        aspect-ratio: 1/1; /* 縦横比を1:1に強制 */
+        padding: 8px 12px !important;
     }
 }
 
@@ -783,5 +809,42 @@
     
     .help-section p, .help-section li {
         font-size: 12px;
+    }
+    
+    /* さらに小さい画面での夢テキスト調整 */
+    .talent-dream {
+        padding: 6px 18px; /* 左右のパディングを12pxから18pxに増加 */
+        margin: 3px 5px 8px;
+        border-radius: 6px;
+    }
+    
+    .talent-dream::before,
+    .talent-dream::after {
+        font-size: 16px;
+    }
+    
+    /* 極小画面での夢テキストサイズをさらに最適化 */
+    .dream-text-short {
+        padding: 3px 12px !important; /* 左右のパディングを8pxから12pxに増加 */
+    }
+    
+    .dream-text-medium-short {
+        padding: 3px 12px !important; /* 左右のパディングを8pxから12pxに増加 */
+    }
+    
+    .dream-text-medium {
+        padding: 3px 12px !important; /* 左右のパディングを8pxから12pxに増加 */
+    }
+    
+    .dream-text-medium-long {
+        padding: 3px 12px !important; /* 左右のパディングを8pxから12pxに増加 */
+    }
+    
+    .dream-text-long {
+        padding: 3px 12px !important; /* 左右のパディングを8pxから12pxに増加 */
+    }
+    
+    .dream-text-very-long {
+        padding: 6px 14px !important; /* 左右のパディングを10pxから14pxに増加 */
     }
 }

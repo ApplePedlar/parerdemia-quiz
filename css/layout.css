@@ -93,11 +93,18 @@
         margin: 0 5px; /* 左右の余白を調整 */
     }
     
-    #options-container.image-select-mode.four-options .image-option img {
-        width: 100%;
-        height: auto;
-        max-width: 180px; /* 画像サイズを少し小さく */
-        max-height: 180px;
+    /* 誰の夢？モードの4選択肢も1行に表示するためのスタイル追加 */
+    #options-container.dream-select-mode.four-options {
+        flex-wrap: nowrap !important;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    #options-container.dream-select-mode.four-options .image-option,
+    #options-container.dream-select-mode.four-options .dream-option {
+        width: 23%; /* 4つで1行に収まるように幅を調整 */
+        min-width: 0; /* 最小幅の制限を解除 */
+        margin: 0 5px; /* 左右の余白を調整 */
     }
     
     /* モーダル内ボタングループのPC表示調整 */
