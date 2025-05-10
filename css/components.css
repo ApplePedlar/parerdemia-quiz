@@ -636,9 +636,9 @@ button {
 
 /* ヘルプボタンのスタイル */
 .help-button {
-    background: none;
+    background-color: rgba(255, 255, 255, 0.3); /* 背景を微かに白っぽく */
     border: none;
-    color: #bbb; /* 非常に薄い色 */
+    color: #e8e8e8; /* 非常に薄い色に変更 */
     cursor: pointer;
     transition: all 0.3s;
     display: flex;
@@ -656,15 +656,17 @@ button {
     top: 50%; /* 上下中央 */
     transform: translateY(-50%);
     font-size: 14px;
-    font-weight: bold;
-    border: 1px solid #ddd;
+    font-weight: normal; /* boldからnormalに変更して薄く */
+    border: 1px solid rgba(221, 221, 221, 0.3); /* 境界線も薄く */
     box-sizing: border-box; /* 境界線とパディングを含めたサイズ計算 */
     line-height: 1; /* テキストの行の高さを調整 */
     aspect-ratio: 1/1; /* 縦横比を1:1に強制 */
     text-align: center; /* テキストを中央に */
+    opacity: 0.6; /* 透明度を追加してさらに目立たなく */
 }
 
 .help-button:hover {
+    opacity: 1; /* ホバー時は完全に表示 */
     background-color: rgba(151, 174, 192, 0.1);
     color: #97aec0;
     border-color: #ccc;
